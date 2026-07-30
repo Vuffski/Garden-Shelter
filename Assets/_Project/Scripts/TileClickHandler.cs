@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class TileClickHandler : MonoBehaviour
 {
     public CoordinateDisplay display;
+    public PlantSelectionManager plantSelection;
 
     private void Update()
     {
@@ -25,6 +26,11 @@ public class TileClickHandler : MonoBehaviour
                     if (tileView != null)
                     {
                         display.ShowCoordinate(tileView.GetLabel());
+
+                        if (plantSelection != null && plantSelection.SelectedPlant != null)
+                        {
+                            tileView.SetPlant(plantSelection.SelectedPlant.Icon);
+                        }
                     }
                 }
             }
