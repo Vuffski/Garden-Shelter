@@ -1,15 +1,24 @@
 using UnityEngine;
-using TMPro;
 
 public class PlantSelectionManager : MonoBehaviour
 {
-    public TMP_Text selectedPlantLabel;
+    private PlantButtonView selectedButton;
 
     public PlantData SelectedPlant { get; private set; }
 
-    public void SelectPlant(PlantData plant)
+    public void SelectPlant(PlantButtonView button)
     {
-        SelectedPlant = plant;
-        selectedPlantLabel.text = "<b>" + plant.PlantName + "</b>";
+        if (selectedButton != null)
+        {
+            selectedButton.SetBold(false);
+        }
+
+        selectedButton = button;
+
+        if (button != null)
+        {
+            button.SetBold(true);
+            SelectedPlant = button.plantData;
+        }
     }
 }
