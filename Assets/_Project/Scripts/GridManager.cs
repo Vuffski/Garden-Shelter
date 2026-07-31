@@ -84,7 +84,7 @@ public class GridManager : MonoBehaviour
                         }
                         else
                         {
-                            fillRenderer.color = Color.white;
+                            fillRenderer.color = Color.grey;
                         }
                     }
                     else

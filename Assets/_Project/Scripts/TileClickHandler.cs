@@ -5,6 +5,7 @@ public class TileClickHandler : MonoBehaviour
 {
     public CoordinateDisplay display;
     public PlantSelectionManager plantSelection;
+    public EconomyManager economyManager;
 
     private void Update()
     {
@@ -29,7 +30,18 @@ public class TileClickHandler : MonoBehaviour
 
                         if (plantSelection != null && plantSelection.SelectedPlant != null)
                         {
-                            tileView.SetPlant(plantSelection.SelectedPlant.Icon);
+                            if (economyManager != null)
+                            {
+                                if (economyManager.CanAfford(plantSelection.SelectedPlant.Cost))
+                                {
+                                    tileView.SetPlant(plantSelection.SelectedPlant.Icon);
+                                    economyManager.Spend(plantSelection.SelectedPlant.Cost);
+                                }
+                                else
+                                {
+                                    Debug.Log("Not enough gold");
+                                }
+                            }
                         }
                     }
                 }
