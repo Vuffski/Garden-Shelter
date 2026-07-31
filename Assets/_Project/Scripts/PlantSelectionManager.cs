@@ -21,4 +21,12 @@ public class PlantSelectionManager : MonoBehaviour
             SelectedPlant = button.plantData;
         }
     }
+
+    public void FlashSelectedCost()
+    {
+        if (selectedButton != null)
+        {
+            selectedButton.FlashCostRed();
+        }
+    }
 }

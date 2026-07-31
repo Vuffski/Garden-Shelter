@@ -70,31 +70,9 @@ public class GridManager : MonoBehaviour
                 {
                     tileView.X = x;
                     tileView.Y = y;
-                }
 
-                Transform fillTransform = spawnedVisual.transform.Find("Fill");
-                if (fillTransform != null)
-                {
-                    SpriteRenderer fillRenderer = fillTransform.GetComponent<SpriteRenderer>();
-                    if (fillRenderer != null)
-                    {
-                        if (tile.Type == TileType.Special)
-                        {
-                            fillRenderer.color = Color.yellow;
-                        }
-                        else
-                        {
-                            fillRenderer.color = Color.grey;
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning("Fill child does not have a SpriteRenderer component!");
-                    }
-                }
-                else
-                {
-                    Debug.LogWarning("Could not find child named 'Fill' on spawned tile prefab!");
+                    Color fillColor = (tile.Type == TileType.Special) ? Color.yellow : Color.grey;
+                    tileView.SetFillColor(fillColor);
                 }
             }
         }

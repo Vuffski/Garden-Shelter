@@ -156,6 +156,8 @@ MonoBehaviour:
   X: 0
   Y: 0
   plantIconRenderer: {fileID: 3833862741672789775}
+  tileWorldSize: 1
+  fillRenderer: {fileID: 5682277249130146719}
 --- !u!1 &6193683003857658885
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,14 +32,26 @@ public class TileClickHandler : MonoBehaviour
                         {
                             if (economyManager != null)
                             {
-                                if (economyManager.CanAfford(plantSelection.SelectedPlant.Cost))
+                                int cost = plantSelection.SelectedPlant.Cost;
+                                Sprite icon = plantSelection.SelectedPlant.Icon;
+
+                                if (!economyManager.CanAfford(cost))
                                 {
-                                    tileView.SetPlant(plantSelection.SelectedPlant.Icon);
-                                    economyManager.Spend(plantSelection.SelectedPlant.Cost);
+                                    plantSelection.FlashSelectedCost();
+                                    return; // Stop here, don't plant
+                                }
+
+                                if (!tileView.IsOccupied)
+                                {
+                                    tileView.SetPlant(icon);
+                                    economyManager.Spend(cost);
                                 }
                                 else
                                 {
-                                    Debug.Log("Not enough gold");
+                                    if (tileView.HandleOverwriteClick(icon))
+                                    {
+                                        economyManager.Spend(cost);
+                                    }
                                 }
                             }
                         }
