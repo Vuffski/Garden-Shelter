@@ -15,3 +15,8 @@ MonoBehaviour:
   DoggyName: Wolf
   Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
   Duration: 50
+  Costs:
+  - Plant: {fileID: 11400000, guid: 444713ceae56dcb4ea25b85f5d154523, type: 2}
+    Amount: 1
+  - Plant: {fileID: 11400000, guid: f5d244b2ab6def747b8b809b630c86c7, type: 2}
+    Amount: 1

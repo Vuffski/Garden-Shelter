@@ -15,3 +15,6 @@ MonoBehaviour:
   DoggyName: Husky
   Icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   Duration: 20
+  Costs:
+  - Plant: {fileID: 11400000, guid: f5d244b2ab6def747b8b809b630c86c7, type: 2}
+    Amount: 2

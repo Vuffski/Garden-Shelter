@@ -9,6 +9,7 @@ public class GridManager : MonoBehaviour
     public GameObject tilePrefab;
     public float tileSize = 1f;
     public float blockGap = 0.15f;
+    public DoggyFieldManager doggyFieldManager;
 
     private Tile[,] grid;
 
@@ -70,6 +71,7 @@ public class GridManager : MonoBehaviour
                 {
                     tileView.X = x;
                     tileView.Y = y;
+                    tileView.doggyFieldManager = doggyFieldManager;
 
                     Color fillColor = (tile.Type == TileType.Special) ? Color.yellow : Color.grey;
                     tileView.SetFillColor(fillColor);

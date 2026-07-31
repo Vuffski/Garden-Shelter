@@ -9,17 +9,46 @@ public class PlantButtonView : MonoBehaviour
     public PlantSelectionManager manager;
     public TMP_Text costLabel;
     public TMP_Text ownedLabel;
+    public HarvestInventory inventory;
 
-    private int harvestedCount = 0;
     private Color normalCostColor;
     private Coroutine flashCoroutine;
 
+    private void OnEnable()
+    {
+        if (inventory != null)
+        {
+            inventory.OnCountChanged += HandleCountChanged;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (inventory != null)
+        {
+            inventory.OnCountChanged -= HandleCountChanged;
+        }
+    }
+
+    private void HandleCountChanged(PlantData changedPlant)
+    {
+        if (changedPlant == plantData)
+        {
+            RefreshLabel();
+        }
+    }
+
+    private void RefreshLabel()
+    {
+        if (ownedLabel != null && inventory != null)
+        {
+            ownedLabel.text = inventory.GetCount(plantData).ToString();
+        }
+    }
+
     private void Start()
     {
-        if (ownedLabel != null)
-        {
-            ownedLabel.text = "0";
-        }
+        RefreshLabel();
 
         if (plantData != null)
         {
@@ -45,15 +74,6 @@ public class PlantButtonView : MonoBehaviour
         if (manager != null)
         {
             manager.SelectPlant(this);
-        }
-    }
-
-    public void AddHarvested()
-    {
-        harvestedCount++;
-        if (ownedLabel != null)
-        {
-            ownedLabel.text = harvestedCount.ToString();
         }
     }
 

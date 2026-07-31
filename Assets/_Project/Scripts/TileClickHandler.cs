@@ -6,6 +6,8 @@ public class TileClickHandler : MonoBehaviour
     public PlantSelectionManager plantSelection;
     public DoggySelectionManager doggySelection;
     public EconomyManager economyManager;
+    public HarvestInventory harvestInventory;
+    public DoggyFieldManager doggyFieldManager;
 
     private void Update()
     {
@@ -27,22 +29,14 @@ public class TileClickHandler : MonoBehaviour
                     {
                         if (tileView.IsReadyToHarvest)
                         {
-                            PlantData harvested = tileView.Harvest();
-                            if (harvested != null)
+                            PlantData harvestedPlant = tileView.Harvest();
+                            if (harvestedPlant != null && harvestInventory != null)
                             {
-                                PlantButtonView[] buttons = FindObjectsOfType<PlantButtonView>();
-                                foreach (PlantButtonView button in buttons)
-                                {
-                                    if (button.plantData == harvested)
-                                    {
-                                        button.AddHarvested();
-                                    }
-                                }
+                                harvestInventory.AddHarvest(harvestedPlant);
                             }
                             return;
                         }
-
-                        if (plantSelection != null && plantSelection.SelectedPlant != null)
+                        else if (plantSelection != null && plantSelection.SelectedPlant != null)
                         {
                             if (economyManager != null)
                             {
@@ -54,25 +48,54 @@ public class TileClickHandler : MonoBehaviour
                                     return; // Stop here, don't plant
                                 }
 
-                                if (!tileView.IsOccupied)
+                                if (tileView.IsOccupied)
                                 {
-                                    tileView.SetPlant(plantSelection.SelectedPlant);
-                                    economyManager.Spend(cost);
-                                }
-                                else
-                                {
-                                    if (tileView.HandleOverwriteClick(plantSelection.SelectedPlant))
+                                    if (tileView.HandleOverwriteClick(() => tileView.SetPlant(plantSelection.SelectedPlant)))
                                     {
                                         economyManager.Spend(cost);
                                     }
+                                }
+                                else
+                                {
+                                    tileView.SetPlant(plantSelection.SelectedPlant);
+                                    economyManager.Spend(cost);
                                 }
                             }
                         }
                         else if (doggySelection != null && doggySelection.SelectedDoggy != null)
                         {
-                            if (!tileView.IsOccupied)
+                            DoggyData doggy = doggySelection.SelectedDoggy;
+
+                            if (doggyFieldManager != null && doggyFieldManager.IsDoggyActive(doggy))
                             {
-                                tileView.PlaceDoggy(doggySelection.SelectedDoggy);
+                                TileView activeTile = doggyFieldManager.GetTileFor(doggy);
+                                if (activeTile != null)
+                                {
+                                    activeTile.FlashDuplicateWarning();
+                                }
+                                return;
+                            }
+
+                            if (harvestInventory != null)
+                            {
+                                if (!harvestInventory.CanAfford(doggy.Costs))
+                                {
+                                    doggySelection.FlashSelectedCost();
+                                    return;
+                                }
+
+                                if (tileView.IsOccupied)
+                                {
+                                    if (tileView.HandleOverwriteClick(() => tileView.PlaceDoggy(doggy)))
+                                    {
+                                        harvestInventory.Spend(doggy.Costs);
+                                    }
+                                }
+                                else
+                                {
+                                    tileView.PlaceDoggy(doggy);
+                                    harvestInventory.Spend(doggy.Costs);
+                                }
                             }
                         }
                     }

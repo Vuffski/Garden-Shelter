@@ -39,5 +39,13 @@ public class DoggySelectionManager : MonoBehaviour
         selectedButton = null;
         SelectedDoggy = null;
     }
+
+    public void FlashSelectedCost()
+    {
+        if (selectedButton != null)
+        {
+            selectedButton.FlashCostRed();
+        }
+    }
 }
 

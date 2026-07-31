@@ -25,8 +25,10 @@ public class TileView : MonoBehaviour
     private Coroutine shakeCoroutine;
     private Vector3 originalLocalPosition;
 
+    [HideInInspector] public DoggyFieldManager doggyFieldManager;
     private DoggyData currentDoggy;
     private Coroutine doggyCoroutine;
+    private Coroutine duplicateFlashCoroutine;
 
     private void Start()
     {
@@ -79,8 +81,41 @@ public class TileView : MonoBehaviour
         }
     }
 
+    private void ClearCurrentOccupant()
+    {
+        if (growthCoroutine != null)
+        {
+            StopCoroutine(growthCoroutine);
+            growthCoroutine = null;
+        }
+        if (doggyCoroutine != null)
+        {
+            StopCoroutine(doggyCoroutine);
+            doggyCoroutine = null;
+        }
+        if (glowCoroutine != null)
+        {
+            StopCoroutine(glowCoroutine);
+            glowCoroutine = null;
+        }
+
+        if (currentDoggy != null)
+        {
+            if (doggyFieldManager != null)
+            {
+                doggyFieldManager.UnregisterDoggy(currentDoggy);
+            }
+        }
+
+        currentDoggy = null;
+        currentPlant = null;
+        IsReadyToHarvest = false;
+    }
+
     public void SetPlant(PlantData plant)
     {
+        ClearCurrentOccupant();
+
         if (growthBarFillRenderer != null)
         {
             growthBarFillRenderer.color = Color.green;
@@ -93,7 +128,6 @@ public class TileView : MonoBehaviour
             plantIconRenderer.gameObject.SetActive(true);
         }
         IsOccupied = true;
-        IsReadyToHarvest = false;
 
         ApplyIconScale(plant.Icon);
 
@@ -104,10 +138,6 @@ public class TileView : MonoBehaviour
 
         UpdateGrowthBar(0f);
 
-        if (growthCoroutine != null)
-        {
-            StopCoroutine(growthCoroutine);
-        }
         growthCoroutine = StartCoroutine(GrowthRoutine(plant.GrowthTime));
     }
 
@@ -132,7 +162,14 @@ public class TileView : MonoBehaviour
 
     public void PlaceDoggy(DoggyData doggy)
     {
+        ClearCurrentOccupant();
+
         currentDoggy = doggy;
+        if (doggyFieldManager != null && currentDoggy != null)
+        {
+            doggyFieldManager.RegisterDoggy(currentDoggy, this);
+        }
+
         if (plantIconRenderer != null)
         {
             plantIconRenderer.sprite = doggy.Icon;
@@ -153,10 +190,6 @@ public class TileView : MonoBehaviour
 
         UpdateGrowthBar(1f);
 
-        if (doggyCoroutine != null)
-        {
-            StopCoroutine(doggyCoroutine);
-        }
         doggyCoroutine = StartCoroutine(DoggyCountdownRoutine(doggy.Duration));
     }
 
@@ -185,7 +218,34 @@ public class TileView : MonoBehaviour
             growthBar.SetActive(false);
         }
         IsOccupied = false;
+        if (doggyFieldManager != null && currentDoggy != null)
+        {
+            doggyFieldManager.UnregisterDoggy(currentDoggy);
+        }
         currentDoggy = null;
+    }
+
+    public void FlashDuplicateWarning()
+    {
+        if (duplicateFlashCoroutine != null)
+        {
+            StopCoroutine(duplicateFlashCoroutine);
+        }
+        duplicateFlashCoroutine = StartCoroutine(DuplicateFlashRoutine());
+    }
+
+    private IEnumerator DuplicateFlashRoutine()
+    {
+        if (fillRenderer != null)
+        {
+            fillRenderer.color = Color.red;
+        }
+        yield return new WaitForSeconds(0.3f);
+        if (fillRenderer != null)
+        {
+            fillRenderer.color = baseFillColor;
+        }
+        duplicateFlashCoroutine = null;
     }
 
     private IEnumerator GlowRoutine()
@@ -241,7 +301,7 @@ public class TileView : MonoBehaviour
         return harvestedPlant;
     }
 
-    public bool HandleOverwriteClick(PlantData newPlant)
+    public bool HandleOverwriteClick(System.Action onConfirm)
     {
         if (resetCoroutine != null)
         {
@@ -276,7 +336,7 @@ public class TileView : MonoBehaviour
             {
                 fillRenderer.color = baseFillColor;
             }
-            SetPlant(newPlant);
+            onConfirm?.Invoke();
             clickCount = 0;
             return true;
         }
