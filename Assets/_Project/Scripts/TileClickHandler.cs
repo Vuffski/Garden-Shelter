@@ -3,13 +3,12 @@ using UnityEngine.InputSystem;
 
 public class TileClickHandler : MonoBehaviour
 {
-    public CoordinateDisplay display;
     public PlantSelectionManager plantSelection;
+    public DoggySelectionManager doggySelection;
     public EconomyManager economyManager;
 
     private void Update()
     {
-        if (display == null) return;
         if (Mouse.current == null) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -26,8 +25,6 @@ public class TileClickHandler : MonoBehaviour
                     TileView tileView = hitCollider.GetComponent<TileView>();
                     if (tileView != null)
                     {
-                        display.ShowCoordinate(tileView.GetLabel());
-
                         if (tileView.IsReadyToHarvest)
                         {
                             PlantData harvested = tileView.Harvest();
@@ -69,6 +66,13 @@ public class TileClickHandler : MonoBehaviour
                                         economyManager.Spend(cost);
                                     }
                                 }
+                            }
+                        }
+                        else if (doggySelection != null && doggySelection.SelectedDoggy != null)
+                        {
+                            if (!tileView.IsOccupied)
+                            {
+                                tileView.PlaceDoggy(doggySelection.SelectedDoggy);
                             }
                         }
                     }

@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class PlantSelectionManager : MonoBehaviour
 {
+    public DoggySelectionManager doggySelection;
+
     private PlantButtonView selectedButton;
 
     public PlantData SelectedPlant { get; private set; }
@@ -20,6 +22,11 @@ public class PlantSelectionManager : MonoBehaviour
             button.SetBold(true);
             SelectedPlant = button.plantData;
         }
+
+        if (doggySelection != null)
+        {
+            doggySelection.ClearSelection();
+        }
     }
 
     public void FlashSelectedCost()
@@ -28,5 +35,15 @@ public class PlantSelectionManager : MonoBehaviour
         {
             selectedButton.FlashCostRed();
         }
+    }
+
+    public void ClearSelection()
+    {
+        if (selectedButton != null)
+        {
+            selectedButton.SetBold(false);
+        }
+        selectedButton = null;
+        SelectedPlant = null;
     }
 }

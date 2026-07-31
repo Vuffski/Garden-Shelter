@@ -25,6 +25,9 @@ public class TileView : MonoBehaviour
     private Coroutine shakeCoroutine;
     private Vector3 originalLocalPosition;
 
+    private DoggyData currentDoggy;
+    private Coroutine doggyCoroutine;
+
     private void Start()
     {
         originalLocalPosition = this.transform.localPosition;
@@ -49,35 +52,57 @@ public class TileView : MonoBehaviour
         baseFillColor = color;
     }
 
+    private void ApplyIconScale(Sprite icon)
+    {
+        if (icon == null) return;
+        float targetSize = tileWorldSize * 0.95f;
+        Vector3 spriteSize = icon.bounds.size;
+        float scaleX = targetSize / spriteSize.x;
+        float scaleY = targetSize / spriteSize.y;
+        if (plantIconRenderer != null)
+        {
+            plantIconRenderer.transform.localScale = new Vector3(scaleX, scaleY, 1f);
+        }
+    }
+
+    private void UpdateGrowthBar(float t)
+    {
+        if (growthBarFillRenderer != null)
+        {
+            Vector3 scale = growthBarFillRenderer.transform.localScale;
+            scale.x = initialFillWidth * t;
+            growthBarFillRenderer.transform.localScale = scale;
+
+            Vector3 pos = growthBarFillRenderer.transform.localPosition;
+            pos.x = (initialFillWidth * (t - 1f)) / 2f;
+            growthBarFillRenderer.transform.localPosition = pos;
+        }
+    }
+
     public void SetPlant(PlantData plant)
     {
+        if (growthBarFillRenderer != null)
+        {
+            growthBarFillRenderer.color = Color.green;
+        }
+
         currentPlant = plant;
-        plantIconRenderer.sprite = plant.Icon;
-        plantIconRenderer.gameObject.SetActive(true);
+        if (plantIconRenderer != null)
+        {
+            plantIconRenderer.sprite = plant.Icon;
+            plantIconRenderer.gameObject.SetActive(true);
+        }
         IsOccupied = true;
         IsReadyToHarvest = false;
 
-        float targetSize = tileWorldSize * 0.95f;
-        Vector3 spriteSize = plant.Icon.bounds.size;
-        float scaleX = targetSize / spriteSize.x;
-        float scaleY = targetSize / spriteSize.y;
-        plantIconRenderer.transform.localScale = new Vector3(scaleX, scaleY, 1f);
+        ApplyIconScale(plant.Icon);
 
         if (growthBar != null)
         {
             growthBar.SetActive(true);
         }
 
-        if (growthBarFillRenderer != null)
-        {
-            Vector3 scale = growthBarFillRenderer.transform.localScale;
-            scale.x = 0f;
-            growthBarFillRenderer.transform.localScale = scale;
-
-            Vector3 pos = growthBarFillRenderer.transform.localPosition;
-            pos.x = -initialFillWidth / 2f;
-            growthBarFillRenderer.transform.localPosition = pos;
-        }
+        UpdateGrowthBar(0f);
 
         if (growthCoroutine != null)
         {
@@ -93,16 +118,7 @@ public class TileView : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / growthTime);
-            if (growthBarFillRenderer != null)
-            {
-                Vector3 scale = growthBarFillRenderer.transform.localScale;
-                scale.x = initialFillWidth * t;
-                growthBarFillRenderer.transform.localScale = scale;
-
-                Vector3 pos = growthBarFillRenderer.transform.localPosition;
-                pos.x = (initialFillWidth * (t - 1f)) / 2f;
-                growthBarFillRenderer.transform.localPosition = pos;
-            }
+            UpdateGrowthBar(t);
             yield return null;
         }
 
@@ -112,6 +128,64 @@ public class TileView : MonoBehaviour
         }
         IsReadyToHarvest = true;
         glowCoroutine = StartCoroutine(GlowRoutine());
+    }
+
+    public void PlaceDoggy(DoggyData doggy)
+    {
+        currentDoggy = doggy;
+        if (plantIconRenderer != null)
+        {
+            plantIconRenderer.sprite = doggy.Icon;
+            plantIconRenderer.gameObject.SetActive(true);
+        }
+        ApplyIconScale(doggy.Icon);
+        IsOccupied = true;
+
+        if (growthBar != null)
+        {
+            growthBar.SetActive(true);
+        }
+
+        if (growthBarFillRenderer != null)
+        {
+            growthBarFillRenderer.color = new Color(1f, 0.55f, 0f);
+        }
+
+        UpdateGrowthBar(1f);
+
+        if (doggyCoroutine != null)
+        {
+            StopCoroutine(doggyCoroutine);
+        }
+        doggyCoroutine = StartCoroutine(DoggyCountdownRoutine(doggy.Duration));
+    }
+
+    private IEnumerator DoggyCountdownRoutine(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            yield return null;
+            elapsed += Time.deltaTime;
+            float t = 1f - Mathf.Clamp01(elapsed / duration);
+            UpdateGrowthBar(t);
+        }
+        UpdateGrowthBar(0f);
+        RemoveDoggy();
+    }
+
+    private void RemoveDoggy()
+    {
+        if (plantIconRenderer != null)
+        {
+            plantIconRenderer.gameObject.SetActive(false);
+        }
+        if (growthBar != null)
+        {
+            growthBar.SetActive(false);
+        }
+        IsOccupied = false;
+        currentDoggy = null;
     }
 
     private IEnumerator GlowRoutine()
