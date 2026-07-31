@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6923064755617520862}
   - component: {fileID: 3699173207169587024}
+  - component: {fileID: 1109660405586355253}
   m_Layer: 5
   m_Name: AoeOverlaySegment
   m_TagString: Untagged
@@ -95,3 +96,15 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &1109660405586355253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4116915557498639689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f99a938f9409a943a3599dcb9efb13a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AoeOverlayFlash

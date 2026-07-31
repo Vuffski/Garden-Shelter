@@ -97,10 +97,17 @@ public class TileView : MonoBehaviour
             GameObject spawnedOverlay = Instantiate(aoeOverlayPrefab, transform);
             spawnedOverlay.transform.localPosition = Vector3.zero;
             SpriteRenderer sr = spawnedOverlay.GetComponent<SpriteRenderer>();
-            if (sr != null)
+            
+            AoeOverlayFlash flasher = spawnedOverlay.GetComponent<AoeOverlayFlash>();
+            if (flasher != null)
+            {
+                flasher.Initialize(doggy.AoeColor, doggy.FlashFrequency);
+            }
+            else if (sr != null)
             {
                 sr.color = doggy.AoeColor;
             }
+
             aoeOverlays[doggy] = sr;
         }
     }

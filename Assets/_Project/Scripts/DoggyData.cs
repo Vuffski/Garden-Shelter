@@ -20,4 +20,5 @@ public class DoggyData : ScriptableObject
     public int RangeUpLeft = 0;
 
     public Color AoeColor = Color.white;
+    public float FlashFrequency = 1f;
 }

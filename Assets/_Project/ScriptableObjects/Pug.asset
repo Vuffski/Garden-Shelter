@@ -27,3 +27,4 @@ MonoBehaviour:
   RangeLeft: 1
   RangeUpLeft: 0
   AoeColor: {r: 0.34536266, g: 1, b: 0, a: 0.29803923}
+  FlashFrequency: 2.1
