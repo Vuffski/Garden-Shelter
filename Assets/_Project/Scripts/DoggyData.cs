@@ -8,4 +8,16 @@ public class DoggyData : ScriptableObject
     public Sprite Icon;
     public float Duration;
     public List<PlantCost> Costs;
+
+    [Header("Ranges")]
+    public int RangeUp = 0;
+    public int RangeUpRight = 0;
+    public int RangeRight = 0;
+    public int RangeDownRight = 0;
+    public int RangeDown = 0;
+    public int RangeDownLeft = 0;
+    public int RangeLeft = 0;
+    public int RangeUpLeft = 0;
+
+    public Color AoeColor = Color.white;
 }

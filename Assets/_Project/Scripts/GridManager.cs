@@ -12,6 +12,7 @@ public class GridManager : MonoBehaviour
     public DoggyFieldManager doggyFieldManager;
 
     private Tile[,] grid;
+    private TileView[,] tileViews;
 
     private void Awake()
     {
@@ -22,6 +23,7 @@ public class GridManager : MonoBehaviour
     private void GenerateGrid()
     {
         grid = new Tile[GridWidth, GridHeight];
+        tileViews = new TileView[GridWidth, GridHeight];
 
         for (int x = 0; x < GridWidth; x++)
         {
@@ -72,15 +74,18 @@ public class GridManager : MonoBehaviour
                     tileView.X = x;
                     tileView.Y = y;
                     tileView.doggyFieldManager = doggyFieldManager;
+                    tileView.gridManager = this;
 
                     Color fillColor = (tile.Type == TileType.Special) ? Color.yellow : Color.grey;
                     tileView.SetFillColor(fillColor);
+
+                    tileViews[x, y] = tileView;
                 }
             }
         }
     }
 
-    public Tile GetTile(int x, int y)
+    public Tile GetTileData(int x, int y)
     {
         if (x < 0 || x >= GridWidth || y < 0 || y >= GridHeight)
         {
@@ -88,5 +93,15 @@ public class GridManager : MonoBehaviour
         }
 
         return grid[x, y];
+    }
+
+    public TileView GetTile(int x, int y)
+    {
+        if (x < 0 || x >= GridWidth || y < 0 || y >= GridHeight)
+        {
+            return null;
+        }
+
+        return tileViews != null ? tileViews[x, y] : null;
     }
 }

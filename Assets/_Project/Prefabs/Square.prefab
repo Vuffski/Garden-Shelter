@@ -376,6 +376,9 @@ MonoBehaviour:
   fillRenderer: {fileID: 5682277249130146719}
   growthBar: {fileID: 3206193272647730354}
   growthBarFillRenderer: {fileID: 3382727194798343571}
+  doggyFieldManager: {fileID: 0}
+  gridManager: {fileID: 0}
+  aoeOverlayPrefab: {fileID: 4116915557498639689, guid: ae15d980d7e139d48812b1a5dfeb8094, type: 3}
 --- !u!1 &6193683003857658885
 GameObject:
   m_ObjectHideFlags: 0

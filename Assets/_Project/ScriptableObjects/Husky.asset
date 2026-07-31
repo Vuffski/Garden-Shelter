@@ -18,3 +18,12 @@ MonoBehaviour:
   Costs:
   - Plant: {fileID: 11400000, guid: f5d244b2ab6def747b8b809b630c86c7, type: 2}
     Amount: 2
+  RangeUp: 0
+  RangeUpRight: 2
+  RangeRight: 0
+  RangeDownRight: 2
+  RangeDown: 0
+  RangeDownLeft: 2
+  RangeLeft: 0
+  RangeUpLeft: 2
+  AoeColor: {r: 0, g: 0.7424793, b: 0.9056604, a: 0.3529412}

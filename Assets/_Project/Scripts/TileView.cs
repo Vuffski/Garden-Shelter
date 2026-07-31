@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TileView : MonoBehaviour
 {
@@ -26,6 +27,11 @@ public class TileView : MonoBehaviour
     private Vector3 originalLocalPosition;
 
     [HideInInspector] public DoggyFieldManager doggyFieldManager;
+    [HideInInspector] public GridManager gridManager;
+    public GameObject aoeOverlayPrefab;
+    private Dictionary<DoggyData, SpriteRenderer> aoeOverlays = new Dictionary<DoggyData, SpriteRenderer>();
+    private List<TileView> influencedTiles = new List<TileView>();
+
     private DoggyData currentDoggy;
     private Coroutine doggyCoroutine;
     private Coroutine duplicateFlashCoroutine;
@@ -81,6 +87,78 @@ public class TileView : MonoBehaviour
         }
     }
 
+    public void AddAoeOverlay(DoggyData doggy)
+    {
+        if (doggy == null) return;
+        if (aoeOverlays.ContainsKey(doggy)) return;
+
+        if (aoeOverlayPrefab != null)
+        {
+            GameObject spawnedOverlay = Instantiate(aoeOverlayPrefab, transform);
+            spawnedOverlay.transform.localPosition = Vector3.zero;
+            SpriteRenderer sr = spawnedOverlay.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                sr.color = doggy.AoeColor;
+            }
+            aoeOverlays[doggy] = sr;
+        }
+    }
+
+    public void RemoveAoeOverlay(DoggyData doggy)
+    {
+        if (doggy == null) return;
+        if (aoeOverlays.TryGetValue(doggy, out SpriteRenderer sr))
+        {
+            if (sr != null && sr.gameObject != null)
+            {
+                Destroy(sr.gameObject);
+            }
+            aoeOverlays.Remove(doggy);
+        }
+    }
+
+    private void ApplyInfluence(DoggyData doggy)
+    {
+        if (doggy == null) return;
+        influencedTiles.Clear();
+
+        ApplyDirection(doggy, 0, 1, doggy.RangeUp);
+        ApplyDirection(doggy, 1, 1, doggy.RangeUpRight);
+        ApplyDirection(doggy, 1, 0, doggy.RangeRight);
+        ApplyDirection(doggy, 1, -1, doggy.RangeDownRight);
+        ApplyDirection(doggy, 0, -1, doggy.RangeDown);
+        ApplyDirection(doggy, -1, -1, doggy.RangeDownLeft);
+        ApplyDirection(doggy, -1, 0, doggy.RangeLeft);
+        ApplyDirection(doggy, -1, 1, doggy.RangeUpLeft);
+    }
+
+    private void ApplyDirection(DoggyData doggy, int dx, int dy, int range)
+    {
+        if (gridManager == null) return;
+        for (int step = 1; step <= range; step++)
+        {
+            TileView targetTile = gridManager.GetTile(X + dx * step, Y + dy * step);
+            if (targetTile == null) continue;
+
+            targetTile.AddAoeOverlay(doggy);
+            influencedTiles.Add(targetTile);
+        }
+    }
+
+    private void ClearInfluence(DoggyData doggy)
+    {
+        if (doggy == null) return;
+        foreach (TileView tile in influencedTiles)
+        {
+            if (tile != null)
+            {
+                tile.RemoveAoeOverlay(doggy);
+            }
+        }
+        influencedTiles.Clear();
+    }
+
     private void ClearCurrentOccupant()
     {
         if (growthCoroutine != null)
@@ -101,6 +179,7 @@ public class TileView : MonoBehaviour
 
         if (currentDoggy != null)
         {
+            ClearInfluence(currentDoggy);
             if (doggyFieldManager != null)
             {
                 doggyFieldManager.UnregisterDoggy(currentDoggy);
@@ -191,6 +270,7 @@ public class TileView : MonoBehaviour
         UpdateGrowthBar(1f);
 
         doggyCoroutine = StartCoroutine(DoggyCountdownRoutine(doggy.Duration));
+        ApplyInfluence(doggy);
     }
 
     private IEnumerator DoggyCountdownRoutine(float duration)
@@ -218,6 +298,10 @@ public class TileView : MonoBehaviour
             growthBar.SetActive(false);
         }
         IsOccupied = false;
+        if (currentDoggy != null)
+        {
+            ClearInfluence(currentDoggy);
+        }
         if (doggyFieldManager != null && currentDoggy != null)
         {
             doggyFieldManager.UnregisterDoggy(currentDoggy);
