@@ -8,12 +8,19 @@ public class PlantButtonView : MonoBehaviour
     public TMP_Text label;
     public PlantSelectionManager manager;
     public TMP_Text costLabel;
+    public TMP_Text ownedLabel;
 
+    private int harvestedCount = 0;
     private Color normalCostColor;
     private Coroutine flashCoroutine;
 
     private void Start()
     {
+        if (ownedLabel != null)
+        {
+            ownedLabel.text = "0";
+        }
+
         if (plantData != null)
         {
             if (label != null)
@@ -38,6 +45,15 @@ public class PlantButtonView : MonoBehaviour
         if (manager != null)
         {
             manager.SelectPlant(this);
+        }
+    }
+
+    public void AddHarvested()
+    {
+        harvestedCount++;
+        if (ownedLabel != null)
+        {
+            ownedLabel.text = harvestedCount.ToString();
         }
     }
 

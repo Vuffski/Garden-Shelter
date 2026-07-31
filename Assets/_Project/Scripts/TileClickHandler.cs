@@ -28,12 +28,28 @@ public class TileClickHandler : MonoBehaviour
                     {
                         display.ShowCoordinate(tileView.GetLabel());
 
+                        if (tileView.IsReadyToHarvest)
+                        {
+                            PlantData harvested = tileView.Harvest();
+                            if (harvested != null)
+                            {
+                                PlantButtonView[] buttons = FindObjectsOfType<PlantButtonView>();
+                                foreach (PlantButtonView button in buttons)
+                                {
+                                    if (button.plantData == harvested)
+                                    {
+                                        button.AddHarvested();
+                                    }
+                                }
+                            }
+                            return;
+                        }
+
                         if (plantSelection != null && plantSelection.SelectedPlant != null)
                         {
                             if (economyManager != null)
                             {
                                 int cost = plantSelection.SelectedPlant.Cost;
-                                Sprite icon = plantSelection.SelectedPlant.Icon;
 
                                 if (!economyManager.CanAfford(cost))
                                 {
@@ -43,12 +59,12 @@ public class TileClickHandler : MonoBehaviour
 
                                 if (!tileView.IsOccupied)
                                 {
-                                    tileView.SetPlant(icon);
+                                    tileView.SetPlant(plantSelection.SelectedPlant);
                                     economyManager.Spend(cost);
                                 }
                                 else
                                 {
-                                    if (tileView.HandleOverwriteClick(icon))
+                                    if (tileView.HandleOverwriteClick(plantSelection.SelectedPlant))
                                     {
                                         economyManager.Spend(cost);
                                     }

@@ -12,6 +12,14 @@ public class TileView : MonoBehaviour
     private Color baseFillColor;
     public bool IsOccupied { get; private set; }
 
+    public GameObject growthBar;
+    public SpriteRenderer growthBarFillRenderer;
+    private float initialFillWidth;
+    private PlantData currentPlant;
+    private Coroutine growthCoroutine;
+    private Coroutine glowCoroutine;
+    public bool IsReadyToHarvest { get; private set; }
+
     private int clickCount = 0;
     private Coroutine resetCoroutine;
     private Coroutine shakeCoroutine;
@@ -20,6 +28,10 @@ public class TileView : MonoBehaviour
     private void Start()
     {
         originalLocalPosition = this.transform.localPosition;
+        if (growthBarFillRenderer != null)
+        {
+            initialFillWidth = growthBarFillRenderer.transform.localScale.x;
+        }
     }
 
     public string GetLabel()
@@ -37,20 +49,125 @@ public class TileView : MonoBehaviour
         baseFillColor = color;
     }
 
-    public void SetPlant(Sprite icon)
+    public void SetPlant(PlantData plant)
     {
-        plantIconRenderer.sprite = icon;
+        currentPlant = plant;
+        plantIconRenderer.sprite = plant.Icon;
         plantIconRenderer.gameObject.SetActive(true);
         IsOccupied = true;
+        IsReadyToHarvest = false;
 
         float targetSize = tileWorldSize * 0.95f;
-        Vector3 spriteSize = icon.bounds.size;
+        Vector3 spriteSize = plant.Icon.bounds.size;
         float scaleX = targetSize / spriteSize.x;
         float scaleY = targetSize / spriteSize.y;
         plantIconRenderer.transform.localScale = new Vector3(scaleX, scaleY, 1f);
+
+        if (growthBar != null)
+        {
+            growthBar.SetActive(true);
+        }
+
+        if (growthBarFillRenderer != null)
+        {
+            Vector3 scale = growthBarFillRenderer.transform.localScale;
+            scale.x = 0f;
+            growthBarFillRenderer.transform.localScale = scale;
+
+            Vector3 pos = growthBarFillRenderer.transform.localPosition;
+            pos.x = -initialFillWidth / 2f;
+            growthBarFillRenderer.transform.localPosition = pos;
+        }
+
+        if (growthCoroutine != null)
+        {
+            StopCoroutine(growthCoroutine);
+        }
+        growthCoroutine = StartCoroutine(GrowthRoutine(plant.GrowthTime));
     }
 
-    public bool HandleOverwriteClick(Sprite newIcon)
+    private IEnumerator GrowthRoutine(float growthTime)
+    {
+        float elapsed = 0f;
+        while (elapsed < growthTime)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / growthTime);
+            if (growthBarFillRenderer != null)
+            {
+                Vector3 scale = growthBarFillRenderer.transform.localScale;
+                scale.x = initialFillWidth * t;
+                growthBarFillRenderer.transform.localScale = scale;
+
+                Vector3 pos = growthBarFillRenderer.transform.localPosition;
+                pos.x = (initialFillWidth * (t - 1f)) / 2f;
+                growthBarFillRenderer.transform.localPosition = pos;
+            }
+            yield return null;
+        }
+
+        if (growthBar != null)
+        {
+            growthBar.SetActive(false);
+        }
+        IsReadyToHarvest = true;
+        glowCoroutine = StartCoroutine(GlowRoutine());
+    }
+
+    private IEnumerator GlowRoutine()
+    {
+        while (IsReadyToHarvest)
+        {
+            float pulse = (Mathf.Sin(Time.time * 5f) + 1f) / 2f;
+            if (fillRenderer != null)
+            {
+                fillRenderer.color = Color.Lerp(baseFillColor, Color.white, pulse);
+            }
+            yield return null;
+        }
+        if (fillRenderer != null)
+        {
+            fillRenderer.color = baseFillColor;
+        }
+    }
+
+    public PlantData Harvest()
+    {
+        if (!IsReadyToHarvest)
+        {
+            return null;
+        }
+
+        PlantData harvestedPlant = currentPlant;
+        IsReadyToHarvest = false;
+        IsOccupied = false;
+
+        if (glowCoroutine != null)
+        {
+            StopCoroutine(glowCoroutine);
+            glowCoroutine = null;
+        }
+
+        if (fillRenderer != null)
+        {
+            fillRenderer.color = baseFillColor;
+        }
+
+        if (plantIconRenderer != null)
+        {
+            plantIconRenderer.gameObject.SetActive(false);
+        }
+
+        if (growthBar != null)
+        {
+            growthBar.SetActive(false);
+        }
+
+        currentPlant = null;
+        return harvestedPlant;
+    }
+
+    public bool HandleOverwriteClick(PlantData newPlant)
     {
         if (resetCoroutine != null)
         {
@@ -85,7 +202,7 @@ public class TileView : MonoBehaviour
             {
                 fillRenderer.color = baseFillColor;
             }
-            SetPlant(newIcon);
+            SetPlant(newPlant);
             clickCount = 0;
             return true;
         }
