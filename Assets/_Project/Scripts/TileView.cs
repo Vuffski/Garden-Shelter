@@ -2,6 +2,12 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+public struct HarvestResult
+{
+    public PlantData Plant;
+    public int Amount;
+}
+
 public class TileView : MonoBehaviour
 {
     public int X;
@@ -227,13 +233,27 @@ public class TileView : MonoBehaviour
         growthCoroutine = StartCoroutine(GrowthRoutine(plant.GrowthTime));
     }
 
+    private float GetActiveGrowthMultiplier()
+    {
+        float multiplier = 1f;
+        foreach (DoggyData doggy in aoeOverlays.Keys)
+        {
+            if (doggy != null && doggy.UseGrowthSpeed)
+            {
+                multiplier *= doggy.GrowthMultiplier;
+            }
+        }
+        return multiplier;
+    }
+
     private IEnumerator GrowthRoutine(float growthTime)
     {
-        float elapsed = 0f;
-        while (elapsed < growthTime)
+        float progress = 0f;
+        while (progress < growthTime)
         {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / growthTime);
+            float multiplier = GetActiveGrowthMultiplier();
+            progress += Time.deltaTime / Mathf.Max(multiplier, 0.0001f);
+            float t = Mathf.Clamp01(progress / growthTime);
             UpdateGrowthBar(t);
             yield return null;
         }
@@ -356,11 +376,28 @@ public class TileView : MonoBehaviour
         }
     }
 
-    public PlantData Harvest()
+    public HarvestResult Harvest()
     {
         if (!IsReadyToHarvest)
         {
-            return null;
+            return new HarvestResult { Plant = null, Amount = 0 };
+        }
+
+        float totalBonus = 0f;
+        foreach (DoggyData doggy in aoeOverlays.Keys)
+        {
+            if (doggy != null && doggy.UseYield)
+            {
+                totalBonus += doggy.YieldChance;
+            }
+        }
+
+        int guaranteedExtra = Mathf.FloorToInt(totalBonus);
+        float remainder = totalBonus - guaranteedExtra;
+        int amount = 1 + guaranteedExtra;
+        if (Random.value < remainder)
+        {
+            amount += 1;
         }
 
         PlantData harvestedPlant = currentPlant;
@@ -389,7 +426,7 @@ public class TileView : MonoBehaviour
         }
 
         currentPlant = null;
-        return harvestedPlant;
+        return new HarvestResult { Plant = harvestedPlant, Amount = amount };
     }
 
     public bool HandleOverwriteClick(System.Action onConfirm)

@@ -29,3 +29,8 @@ MonoBehaviour:
   RangeLeft: 1
   RangeUpLeft: 1
   AoeColor: {r: 1, g: 0, b: 0, a: 0.3137255}
+  FlashFrequency: 1
+  UseGrowthSpeed: 1
+  GrowthMultiplier: 0.9
+  UseYield: 1
+  YieldChance: 1

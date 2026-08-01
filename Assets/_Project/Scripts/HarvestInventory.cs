@@ -18,16 +18,16 @@ public class HarvestInventory : MonoBehaviour
         return 0;
     }
 
-    public void AddHarvest(PlantData plant)
+    public void AddHarvest(PlantData plant, int amount = 1)
     {
-        if (plant == null) return;
+        if (plant == null || amount <= 0) return;
         if (counts.ContainsKey(plant))
         {
-            counts[plant]++;
+            counts[plant] += amount;
         }
         else
         {
-            counts[plant] = 1;
+            counts[plant] = amount;
         }
         OnCountChanged?.Invoke(plant);
     }

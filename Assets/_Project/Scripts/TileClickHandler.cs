@@ -29,10 +29,10 @@ public class TileClickHandler : MonoBehaviour
                     {
                         if (tileView.IsReadyToHarvest)
                         {
-                            PlantData harvestedPlant = tileView.Harvest();
-                            if (harvestedPlant != null && harvestInventory != null)
+                            HarvestResult result = tileView.Harvest();
+                            if (result.Plant != null && harvestInventory != null)
                             {
-                                harvestInventory.AddHarvest(harvestedPlant);
+                                harvestInventory.AddHarvest(result.Plant, result.Amount);
                             }
                             return;
                         }

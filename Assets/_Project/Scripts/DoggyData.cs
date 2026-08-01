@@ -21,4 +21,10 @@ public class DoggyData : ScriptableObject
 
     public Color AoeColor = Color.white;
     public float FlashFrequency = 1f;
+
+    [Header("Growth and Yield Settings")]
+    public bool UseGrowthSpeed;
+    public float GrowthMultiplier = 1f;
+    public bool UseYield;
+    public float YieldChance = 0f;
 }
