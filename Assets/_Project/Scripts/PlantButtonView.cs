@@ -71,6 +71,11 @@ public class PlantButtonView : MonoBehaviour
 
     public void OnClicked()
     {
+        if (plantData != null)
+        {
+            Debug.Log("Plant button clicked: " + plantData.PlantName);
+        }
+
         if (manager != null)
         {
             manager.SelectPlant(this);

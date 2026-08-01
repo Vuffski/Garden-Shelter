@@ -8,9 +8,13 @@ public class TileClickHandler : MonoBehaviour
     public EconomyManager economyManager;
     public HarvestInventory harvestInventory;
     public DoggyFieldManager doggyFieldManager;
+    public AchievementManager achievementManager;
+    public GameObject achievementsPanel;
 
     private void Update()
     {
+        if (achievementsPanel != null && achievementsPanel.activeInHierarchy) return;
+
         if (Mouse.current == null) return;
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -33,10 +37,17 @@ public class TileClickHandler : MonoBehaviour
                             if (result.Plant != null && harvestInventory != null)
                             {
                                 harvestInventory.AddHarvest(result.Plant, result.Amount);
+                                if (achievementManager != null)
+                                {
+                                    achievementManager.RegisterHarvest(result.Plant, result.Amount);
+                                }
                             }
                             return;
                         }
-                        else if (plantSelection != null && plantSelection.SelectedPlant != null)
+
+                        Debug.Log("SelectedPlant is currently: " + (plantSelection != null && plantSelection.SelectedPlant != null ? plantSelection.SelectedPlant.name : "NULL"));
+
+                        if (plantSelection != null && plantSelection.SelectedPlant != null)
                         {
                             if (economyManager != null)
                             {
@@ -61,6 +72,7 @@ public class TileClickHandler : MonoBehaviour
                                     economyManager.Spend(cost);
                                 }
                             }
+                            return;
                         }
                         else if (doggySelection != null && doggySelection.SelectedDoggy != null)
                         {

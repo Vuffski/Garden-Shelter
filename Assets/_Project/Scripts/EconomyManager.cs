@@ -6,6 +6,7 @@ public class EconomyManager : MonoBehaviour
     public int startingGold = 100;
     private int currentGold;
     public TMP_Text goldLabel;
+    public AchievementManager achievementManager;
 
     private void Awake()
     {
@@ -28,6 +29,10 @@ public class EconomyManager : MonoBehaviour
     {
         if (amount <= 0) return;
         currentGold += amount;
+        if (achievementManager != null)
+        {
+            achievementManager.RegisterCoinsEarned(amount);
+        }
         UpdateLabel();
     }
 

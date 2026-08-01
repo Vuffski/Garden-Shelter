@@ -10,6 +10,8 @@ public class PlantSelectionManager : MonoBehaviour
 
     public void SelectPlant(PlantButtonView button)
     {
+        Debug.Log("SelectPlant called with: " + (button != null && button.plantData != null ? button.plantData.name : "null"));
+
         if (selectedButton != null)
         {
             selectedButton.SetBold(false);
