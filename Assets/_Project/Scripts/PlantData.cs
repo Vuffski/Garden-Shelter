@@ -7,4 +7,5 @@ public class PlantData : ScriptableObject
     public Sprite Icon;
     public int Cost;
     public float GrowthTime;
+    public int SellValue;
 }

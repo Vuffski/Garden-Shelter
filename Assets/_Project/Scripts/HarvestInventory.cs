@@ -62,4 +62,10 @@ public class HarvestInventory : MonoBehaviour
             OnCountChanged?.Invoke(cost.Plant);
         }
     }
+
+    public void SpendOne(PlantData plant)
+    {
+        if (plant == null) return;
+        Spend(new List<PlantCost> { new PlantCost { Plant = plant, Amount = 1 } });
+    }
 }

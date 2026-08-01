@@ -24,6 +24,13 @@ public class EconomyManager : MonoBehaviour
         UpdateLabel();
     }
 
+    public void Earn(int amount)
+    {
+        if (amount <= 0) return;
+        currentGold += amount;
+        UpdateLabel();
+    }
+
     private void UpdateLabel()
     {
         if (goldLabel != null)
