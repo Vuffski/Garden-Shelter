@@ -6,6 +6,8 @@ public class AchievementManager : MonoBehaviour
 {
     [SerializeField] private List<AchievementData> allAchievements;
 
+    public IReadOnlyList<AchievementData> AllAchievements => allAchievements;
+
     private int totalHarvested;
     private Dictionary<PlantData, int> perPlantHarvested = new Dictionary<PlantData, int>();
     private int totalCoinsEarned;

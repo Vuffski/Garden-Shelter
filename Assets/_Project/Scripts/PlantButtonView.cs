@@ -21,11 +21,19 @@ public class PlantButtonView : MonoBehaviour
     private void Awake()
     {
         allButtons.Add(this);
+        if (unlockManager != null)
+        {
+            unlockManager.OnPlantUnlocked += HandlePlantUnlocked;
+        }
     }
 
     private void OnDestroy()
     {
         allButtons.Remove(this);
+        if (unlockManager != null)
+        {
+            unlockManager.OnPlantUnlocked -= HandlePlantUnlocked;
+        }
     }
 
     private void OnEnable()
@@ -34,10 +42,6 @@ public class PlantButtonView : MonoBehaviour
         {
             inventory.OnCountChanged += HandleCountChanged;
         }
-        if (unlockManager != null)
-        {
-            unlockManager.OnPlantUnlocked += HandlePlantUnlocked;
-        }
     }
 
     private void OnDisable()
@@ -45,10 +49,6 @@ public class PlantButtonView : MonoBehaviour
         if (inventory != null)
         {
             inventory.OnCountChanged -= HandleCountChanged;
-        }
-        if (unlockManager != null)
-        {
-            unlockManager.OnPlantUnlocked -= HandlePlantUnlocked;
         }
     }
 

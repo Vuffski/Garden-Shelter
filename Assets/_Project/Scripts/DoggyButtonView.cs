@@ -21,23 +21,15 @@ public class DoggyButtonView : MonoBehaviour
     private void Awake()
     {
         allButtons.Add(this);
-    }
-
-    private void OnDestroy()
-    {
-        allButtons.Remove(this);
-    }
-
-    private void OnEnable()
-    {
         if (unlockManager != null)
         {
             unlockManager.OnDoggyUnlocked += HandleDoggyUnlocked;
         }
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
+        allButtons.Remove(this);
         if (unlockManager != null)
         {
             unlockManager.OnDoggyUnlocked -= HandleDoggyUnlocked;
