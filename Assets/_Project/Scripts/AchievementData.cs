@@ -20,4 +20,8 @@ public class AchievementData : ScriptableObject
     public string UnlockDescription;
     public List<PlantData> PlantsToUnlock;
     public List<DoggyData> DoggiesToUnlock;
+
+    [Header("Prerequisites")]
+    public AchievementData RequiredAchievement;
+    public DoggyData RequiredDoggy;
 }

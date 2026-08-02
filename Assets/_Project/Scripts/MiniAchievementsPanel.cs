@@ -35,7 +35,7 @@ public class MiniAchievementsPanel : MonoBehaviour
             for (int i = 0; i < all.Count; i++)
             {
                 AchievementData a = all[i];
-                if (a != null && !achievementManager.IsCompleted(a))
+                if (a != null && !achievementManager.IsCompleted(a) && achievementManager.IsUnlocked(a))
                 {
                     incompleteAchievements.Add(a);
                 }

@@ -20,3 +20,5 @@ MonoBehaviour:
   PlantsToUnlock:
   - {fileID: 11400000, guid: cbd6bc5e2f4146e40af25e4e33a96b75, type: 2}
   DoggiesToUnlock: []
+  RequiredAchievement: {fileID: 0}
+  RequiredDoggy: {fileID: 11400000, guid: 4fc2080b280ac12468618e4768048605, type: 2}

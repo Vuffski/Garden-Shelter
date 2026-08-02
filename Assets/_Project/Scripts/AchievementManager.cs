@@ -5,6 +5,7 @@ using UnityEngine;
 public class AchievementManager : MonoBehaviour
 {
     [SerializeField] private List<AchievementData> allAchievements;
+    [SerializeField] private UnlockManager unlockManager;
 
     public IReadOnlyList<AchievementData> AllAchievements => allAchievements;
 
@@ -62,6 +63,23 @@ public class AchievementManager : MonoBehaviour
     public bool IsCompleted(AchievementData achievement)
     {
         return completedAchievements.Contains(achievement);
+    }
+
+    public bool IsUnlocked(AchievementData achievement)
+    {
+        if (achievement == null) return false;
+
+        if (achievement.RequiredAchievement != null && !IsCompleted(achievement.RequiredAchievement))
+        {
+            return false;
+        }
+
+        if (achievement.RequiredDoggy != null && (unlockManager == null || !unlockManager.IsDoggyUnlocked(achievement.RequiredDoggy)))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public int GetProgress(AchievementData achievement)

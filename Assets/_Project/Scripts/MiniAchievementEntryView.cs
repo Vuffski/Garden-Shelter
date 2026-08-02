@@ -6,6 +6,7 @@ public class MiniAchievementEntryView : MonoBehaviour
     public TMPro.TMP_Text titleLabel;
     public UnityEngine.UI.Slider progressSlider;
     [SerializeField] private TMPro.TMP_Text descriptionLabel;
+    [SerializeField] private UnityEngine.UI.Image doggyIconImage;
 
     public void SetData(AchievementData achievement, float progress)
     {
@@ -32,6 +33,14 @@ public class MiniAchievementEntryView : MonoBehaviour
                     descriptionLabel.text = achievement.UnlockDescription;
                 }
             }
+            if (doggyIconImage != null)
+            {
+                doggyIconImage.gameObject.SetActive(achievement.RequiredDoggy != null);
+                if (achievement.RequiredDoggy != null)
+                {
+                    doggyIconImage.sprite = achievement.RequiredDoggy.Icon;
+                }
+            }
         }
     }
 
@@ -40,6 +49,10 @@ public class MiniAchievementEntryView : MonoBehaviour
         if (descriptionLabel != null)
         {
             descriptionLabel.gameObject.SetActive(false);
+        }
+        if (doggyIconImage != null)
+        {
+            doggyIconImage.gameObject.SetActive(false);
         }
         gameObject.SetActive(false);
     }
