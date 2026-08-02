@@ -1,24 +1,42 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlantButtonView : MonoBehaviour
 {
+    private static List<PlantButtonView> allButtons = new List<PlantButtonView>();
+
     public PlantData plantData;
     public TMP_Text label;
     public PlantSelectionManager manager;
     public TMP_Text costLabel;
     public TMP_Text ownedLabel;
     public HarvestInventory inventory;
+    public UnlockManager unlockManager;
 
     private Color normalCostColor;
     private Coroutine flashCoroutine;
+
+    private void Awake()
+    {
+        allButtons.Add(this);
+    }
+
+    private void OnDestroy()
+    {
+        allButtons.Remove(this);
+    }
 
     private void OnEnable()
     {
         if (inventory != null)
         {
             inventory.OnCountChanged += HandleCountChanged;
+        }
+        if (unlockManager != null)
+        {
+            unlockManager.OnPlantUnlocked += HandlePlantUnlocked;
         }
     }
 
@@ -28,6 +46,10 @@ public class PlantButtonView : MonoBehaviour
         {
             inventory.OnCountChanged -= HandleCountChanged;
         }
+        if (unlockManager != null)
+        {
+            unlockManager.OnPlantUnlocked -= HandlePlantUnlocked;
+        }
     }
 
     private void HandleCountChanged(PlantData changedPlant)
@@ -35,6 +57,26 @@ public class PlantButtonView : MonoBehaviour
         if (changedPlant == plantData)
         {
             RefreshLabel();
+        }
+    }
+
+    private void HandlePlantUnlocked(PlantData unlockedPlant)
+    {
+        if (unlockedPlant == plantData)
+        {
+            gameObject.SetActive(true);
+            Initialize();
+        }
+
+        // Propagate to any matching inactive button in the static registry
+        for (int i = allButtons.Count - 1; i >= 0; i--)
+        {
+            var btn = allButtons[i];
+            if (btn != null && !btn.gameObject.activeSelf && btn.plantData == unlockedPlant)
+            {
+                btn.gameObject.SetActive(true);
+                btn.Initialize();
+            }
         }
     }
 
@@ -47,6 +89,17 @@ public class PlantButtonView : MonoBehaviour
     }
 
     private void Start()
+    {
+        if (unlockManager != null && !unlockManager.IsPlantUnlocked(plantData))
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
+        Initialize();
+    }
+
+    private void Initialize()
     {
         RefreshLabel();
 

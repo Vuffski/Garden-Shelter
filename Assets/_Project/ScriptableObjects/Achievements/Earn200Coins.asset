@@ -16,3 +16,7 @@ MonoBehaviour:
   Type: 2
   SpecificPlant: {fileID: 0}
   TargetValue: 200
+  UnlockDescription: New Plant - Beet
+  PlantsToUnlock:
+  - {fileID: 11400000, guid: 4e18ed13b9d585f40828a9e7d34c38b4, type: 2}
+  DoggiesToUnlock: []

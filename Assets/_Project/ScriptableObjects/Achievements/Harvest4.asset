@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cc8405bcf6da0941b4b0cd808d6a814, type: 3}
-  m_Name: Harvest10
+  m_Name: Harvest4
   m_EditorClassIdentifier: Assembly-CSharp::AchievementData
-  Title: Harvest 10 Crops
+  Title: Harvest 4 Crops
   Type: 0
   SpecificPlant: {fileID: 0}
-  TargetValue: 10
-  UnlockDescription: New Plant - PINK PEPPER
+  TargetValue: 4
+  UnlockDescription: New Plant - CARROT
   PlantsToUnlock:
-  - {fileID: 11400000, guid: a8b9673e135e7644ea3e323be621e0f1, type: 2}
+  - {fileID: 11400000, guid: f5d244b2ab6def747b8b809b630c86c7, type: 2}
   DoggiesToUnlock: []
