@@ -1,0 +1,16 @@
+; Scene 'Y' of 'Route B'.
+
+@trans CircleReveal time:3
+    @hidePrinter
+    @hideChars
+    @back tint:#4f6587
+    @snow power:1
+
+Day passes...
+
+MC: Nightfall hits faster here than my last train home.
+MC: That breeze isn't "bracing", it's "did-I-remember-to-breath?".
+MC: If I'm lucky, that legendary ice cavern has hot cocoa... and maybe a lounge chair.
+
+@set g_clearedB=true
+@title

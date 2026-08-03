@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: bf3ac0c78c74eab44a211e216d096516
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135453
+  packageName: 'Naninovel: Visual Novel, Dialogue & Cutscene Storytelling Engine
+    for Unity'
+  packageVersion: 1.21
+  assetPath: Packages/com.elringus.naninovel/Samples~/DialogueSystem/Runtime/Spinner.cs
+  uploadId: 953760

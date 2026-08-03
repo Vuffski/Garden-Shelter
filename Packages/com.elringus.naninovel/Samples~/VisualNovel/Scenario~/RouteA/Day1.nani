@@ -1,0 +1,12 @@
+; Played when the player chooses red portal in the entry script.
+
+@trans RadialWiggle time:5 easing:Spring
+    @despawnAll
+    @back Desert tint:#5c5388
+
+MC: ...
+MC: Well, this is a new kind of "nightlife"—sand dunes under a disco ball of stars.
+MC.Excited: Hang on...[-] is that a heat mirage or someone's late-night taco stand?
+MC: If it's tacos, I'm about to make friends with a desert mirage.
+
+@goto ./Day2

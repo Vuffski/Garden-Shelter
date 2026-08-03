@@ -1,0 +1,9 @@
+How low hello! You've just entered the dialogue mode.[-] You can live-edit this dialogue via the "Scenario/1-Basics.nani" asset.
+
+The dialogue activation is driven by the "Characters/X/Dialogue" game object in this scene.
+
+Notice that the "1-Basics.nani" asset is assigned to the "Script" property of the "Dialogue Events" component attached to the "Dialogue" game object — this is how it knows which dialogue file to play when activated.
+
+The activation logic is handled by the "Trigger" game object nested under the dialogue object.[-] You can learn more about dialogue activation events with the next character.
+
+@exitDialogue

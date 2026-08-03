@@ -1,0 +1,13 @@
+Try moving now![-] You can't, right?[-] That's because player input is disabled while you're in dialogue mode.
+
+That's wired via the "Dialogue Events" component attached to the "Player/Dialogue" game object in the scene.
+
+Notice how the "PlayerController" enabled status is wired to the "DialogueEntered/Exited" events — you can assign other actions in a similar way.
+
+For example, take a look at the "Characters/Y/Dialogue/Trigger" game object — the entire dialogue activation logic is driven by events!
+
+You can create a template dialogue trigger game object via the "Naninovel/Dialogue" menu shown when right-clicking anywhere inside the Hierarchy tab.
+
+The next character will show you how to use other event types.
+
+@exitDialogue

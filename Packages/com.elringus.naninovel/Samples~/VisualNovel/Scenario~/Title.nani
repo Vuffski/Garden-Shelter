@@ -1,0 +1,24 @@
+; Played in the title menu. Used to set up the title appearance and initialize global variables.
+
+; Initialize two global variables tracking route completion.
+@set g_clearedA?=false
+@set g_clearedB?=false
+
+; Set up the title appearance depending on route status.
+@if { g_clearedA & g_clearedB }
+    ; Show the 'Cosmos' background when both routes are completed.
+    @back Cosmos
+    ; Also notify that the secret route is now available.
+    @toast "Secret Route Available"
+@else if:g_clearedA
+    ; Show the 'Desert' background when Route A is complete.
+    @back Desert
+@else if:g_clearedB
+    ; Show the 'Snow' background when Route B is complete.
+    @back Snow
+@else
+    ; Show a simple black background when no routes are complete.
+    @back Black
+
+; Show the main menu.
+@showUI TitleUI

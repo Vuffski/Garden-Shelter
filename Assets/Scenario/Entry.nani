@@ -1,0 +1,40 @@
+; Played when a new game starts.
+
+; Reveal a 'Mist' background over 1.5 seconds and wait for the animation.
+@back Mist.CircleReveal time:1.5 wait!
+
+; Print some text.
+New game started.
+
+; Show a placeholder character with 'Felix' ID and 'Excited' appearance.
+@char Felix.Excited
+
+; Print text authored by Felix.
+Felix: Hello there!
+
+; Hide the dialogue box.
+@hidePrinter
+
+; Move Felix and make it look right.
+@char Felix pos:15 look:Right
+
+; Print text while changing the author appearance and don't wait CTC.
+Felix.Curious: Have you already checked out the getting started guide?[>]
+
+; Show a choice.
+@choice "Sure thing!"
+    ; Shake the dialogue box.
+    @shake
+    Felix.Happy: Awesome! In that case, you probably won't need this brief intro.[-] Feel free to remove it.
+@choice "What's that?"
+    ; Shake Felix.
+    @shake Felix
+    Felix.Surprised: It's the essential guide that walks you through everything you need to get started with Naninovel.[-] You can find it at <b>naninovel.com/guide</b>.
+    Felix.Persuasive: I highly recommend taking a look — it'll save you a lot of time.
+    Felix: And if you prefer learning by example, you can import the 'Visual Novel' and 'Dialogue Mode' samples directly from Unity's Package Manager.
+
+Felix.Excited: Anyway, I truly hope you'll find Naninovel helpful and enjoyable to use.[-] If you run into any issues or have questions, feel free to reach out to support at <b>naninovel.com/support</b>.
+
+; Hide everything and exit to the title menu.
+@hideAll wait!
+@title

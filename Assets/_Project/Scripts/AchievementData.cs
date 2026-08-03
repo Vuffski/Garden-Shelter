@@ -15,6 +15,7 @@ public class AchievementData : ScriptableObject
     public AchievementType Type;
     public PlantData SpecificPlant;
     public int TargetValue;
+    public string vnScriptName;
 
     [TextArea]
     public string UnlockDescription;

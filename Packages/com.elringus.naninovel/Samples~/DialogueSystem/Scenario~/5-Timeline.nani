@@ -1,0 +1,47 @@
+LD: ...
+
+@unless zedWasted
+    @char W rotation:,50
+    W: Stay away from it!
+    W: It's...[-] not what you think it is.
+    @exitDialogue
+
+@choice "Stay away"
+    @exitDialogue
+@choice "Interact"
+
+MC: Hey...[-] Any idea how to proceed?
+LD: ...
+MC: What are you, anyway?
+LD: And what do you think I am?
+MC: "Not what I think?"
+LD: <size=100>=)</size>
+LD: You're funny. OK, pick a name for me!
+
+@input lbName summary:"Name the thing"
+MC: How about {lbName}?
+LD: <size=100>( * _ * )</size><br><br>[if approx(lbName,"ladybird")]Bingo![else]It'll work.[endIf] Thanks!
+
+MC: About Mr. Zed...
+LD: His visibility's gone.
+MC: But I need to finish the tutorial and Winchester...[>]
+LD: Have you tried rollback?
+MC: What?[>]
+LD: Ah, never mind — it's from another sample.
+MC: ...
+LD: Actually, there is a way, but...
+LD: He won't be... the same.
+MC: I don't care.
+LD: OK, I can send you on the timeline where you'll meet Gok.
+MC: Who?..[>]
+LD: When they ask for a number, answer "42".
+MC: ...
+LD: Ready? I'm starting the timeline.
+MC: Is it safe?
+LD: Just answer "42" and you'll be fine.
+LD: By the way, the timeline is stored under "Cutscenes" game object — in case you'd like to check it out.
+MC: And what if...[>]
+LD: Off we go![>]
+@hidePrinter
+
+@timeline RiseMrZed

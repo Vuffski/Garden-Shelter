@@ -1,0 +1,238 @@
+{
+    "Assets": [
+        {
+            "guid": "4fa6d62f894ae6e4698bfa8af59e7942",
+            "prefix": "ChoiceHandlers",
+            "path": "ButtonArea",
+            "group": "ChoiceHandlers/5563c14c-e300-41ae-b40b-41c8e8fa67f8"
+        },
+        {
+            "guid": "1f6aa29000e839c409e6a9c0704adc96",
+            "prefix": "ChoiceHandlers",
+            "path": "ButtonList",
+            "group": "ChoiceHandlers/6bf177c7-d945-4600-9365-746bf9c07bf5"
+        },
+        {
+            "guid": "0e61df696cabbea448510879ee732b00",
+            "prefix": "ChoiceHandlers",
+            "path": "ChatReply",
+            "group": "ChoiceHandlers/c156411a-c109-4dad-9365-a0d97740b36d"
+        },
+        {
+            "guid": "6c7840f843974af1955399fefba7ce65",
+            "prefix": "Scripts",
+            "path": "Entry",
+            "group": ""
+        },
+        {
+            "guid": "2111a73ee5944a80894c787afc8931e3",
+            "prefix": "Scripts",
+            "path": "Title",
+            "group": ""
+        },
+        {
+            "guid": "7bf06fa813bb9c34daf521998fa72ab1",
+            "prefix": "Spawn",
+            "path": "Animate",
+            "group": ""
+        },
+        {
+            "guid": "e466d9326b30a4b49a3dad428b4d9968",
+            "prefix": "Spawn",
+            "path": "Blur",
+            "group": ""
+        },
+        {
+            "guid": "ea76638b26a915946b62907dd1e776fd",
+            "prefix": "Spawn",
+            "path": "DepthOfField",
+            "group": ""
+        },
+        {
+            "guid": "be75a73ecccb90b4caa5c14edb9ac467",
+            "prefix": "Spawn",
+            "path": "DigitalGlitch",
+            "group": ""
+        },
+        {
+            "guid": "a9117e2fa90704d45b3e1461596c11ee",
+            "prefix": "Spawn",
+            "path": "Rain",
+            "group": ""
+        },
+        {
+            "guid": "9f56c556ba32fd54fae62347c25a8145",
+            "prefix": "Spawn",
+            "path": "ShakeBackground",
+            "group": ""
+        },
+        {
+            "guid": "1c5b86cf3cfbb1f44ae5641699077da4",
+            "prefix": "Spawn",
+            "path": "ShakeCamera",
+            "group": ""
+        },
+        {
+            "guid": "1224d69e1592d624cbde93d0f7383d91",
+            "prefix": "Spawn",
+            "path": "ShakeCharacter",
+            "group": ""
+        },
+        {
+            "guid": "2795040988e866646801c80024c50be1",
+            "prefix": "Spawn",
+            "path": "ShakePrinter",
+            "group": ""
+        },
+        {
+            "guid": "9f4e71cb27fffa04486737d2cf8d622d",
+            "prefix": "Spawn",
+            "path": "Snow",
+            "group": ""
+        },
+        {
+            "guid": "c4bf810b9b6cc9f44a58fd670678ded4",
+            "prefix": "Spawn",
+            "path": "SunShafts",
+            "group": ""
+        },
+        {
+            "guid": "b47d9659b2be5ee4e95a776f213c9d4b",
+            "prefix": "TextPrinters",
+            "path": "Bubble",
+            "group": "TextPrinters/4997fad1-bed5-4ff2-a20b-5dd3a329dba7"
+        },
+        {
+            "guid": "6f9836a3c4f777741b1962979d97e485",
+            "prefix": "TextPrinters",
+            "path": "Chat",
+            "group": "TextPrinters/295a963d-bb58-49c3-901d-e3a68beba13c"
+        },
+        {
+            "guid": "1bc08ccd31adff6439e97161aa6e1d8b",
+            "prefix": "TextPrinters",
+            "path": "Dialogue",
+            "group": "TextPrinters/d9fdcab7-5458-4956-b6dc-c7c8bf3f01da"
+        },
+        {
+            "guid": "c87cebd3f0d4f174789cd351ce9591c4",
+            "prefix": "TextPrinters",
+            "path": "Fullscreen",
+            "group": "TextPrinters/63771305-92cf-4c68-ad49-999c8c767c7c"
+        },
+        {
+            "guid": "781828b806deb1e4cbf50ef9de41da10",
+            "prefix": "TextPrinters",
+            "path": "Wide",
+            "group": "TextPrinters/11bfcaf3-c53c-4e61-8083-5d49afaa7bee"
+        },
+        {
+            "guid": "7fba909c66b25324cb77db18679c2c96",
+            "prefix": "UI",
+            "path": "BacklogUI",
+            "group": ""
+        },
+        {
+            "guid": "71da50c8dae82bd42ba67528804e820c",
+            "prefix": "UI",
+            "path": "CGGalleryUI",
+            "group": ""
+        },
+        {
+            "guid": "702c32b2de0c0784b9a66ec90601874f",
+            "prefix": "UI",
+            "path": "ClickThroughPanel",
+            "group": ""
+        },
+        {
+            "guid": "88d03f19bcbff914ba33a7c9895e2d7c",
+            "prefix": "UI",
+            "path": "ConfirmationUI",
+            "group": ""
+        },
+        {
+            "guid": "1add671f8348e8443bcc56290e82fc5e",
+            "prefix": "UI",
+            "path": "ContinueInputUI",
+            "group": ""
+        },
+        {
+            "guid": "671ceb4f549ddf046913d7debf113469",
+            "prefix": "UI",
+            "path": "ExternalScriptsUI",
+            "group": ""
+        },
+        {
+            "guid": "53aad00e5cf184e458adb001c550518a",
+            "prefix": "UI",
+            "path": "LoadingUI",
+            "group": ""
+        },
+        {
+            "guid": "f9a211517d1cb1a44964dc2254463049",
+            "prefix": "UI",
+            "path": "MovieUI",
+            "group": ""
+        },
+        {
+            "guid": "480f5db62ea305c46b89a86496d2a0c9",
+            "prefix": "UI",
+            "path": "PauseUI",
+            "group": ""
+        },
+        {
+            "guid": "a32c73a3aff4b274c85b3ff16c854b07",
+            "prefix": "UI",
+            "path": "RollbackUI",
+            "group": ""
+        },
+        {
+            "guid": "8d53726b3d08433479398f02b4780e7f",
+            "prefix": "UI",
+            "path": "SaveLoadUI",
+            "group": ""
+        },
+        {
+            "guid": "e3b234b4273b7f64ab3f1d9fe425ed23",
+            "prefix": "UI",
+            "path": "SceneTransitionUI",
+            "group": ""
+        },
+        {
+            "guid": "735d6aa767879aa469134858c5b2f0a7",
+            "prefix": "UI",
+            "path": "ScriptNavigatorUI",
+            "group": ""
+        },
+        {
+            "guid": "65c37f59e9b266f468dd5381fdc03fc3",
+            "prefix": "UI",
+            "path": "SettingsUI",
+            "group": ""
+        },
+        {
+            "guid": "f5aae572225ee1b4c96d1a17fc5cb073",
+            "prefix": "UI",
+            "path": "TipsUI",
+            "group": ""
+        },
+        {
+            "guid": "4b121aa1be1b7e04480b452c595ff17a",
+            "prefix": "UI",
+            "path": "TitleUI",
+            "group": ""
+        },
+        {
+            "guid": "dd85ce99288c2f8488447fa511b1c0d6",
+            "prefix": "UI",
+            "path": "ToastUI",
+            "group": ""
+        },
+        {
+            "guid": "bb95f484e341dcd4391a572f22b7d067",
+            "prefix": "UI",
+            "path": "VariableInputUI",
+            "group": ""
+        }
+    ]
+}

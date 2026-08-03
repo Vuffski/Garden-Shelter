@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0c3ee314143d11841a1a93cb6e4aaf23
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 135453
+  packageName: 'Naninovel: Visual Novel, Dialogue & Cutscene Storytelling Engine
+    for Unity'
+  packageVersion: 1.21
+  assetPath: Packages/com.elringus.naninovel/Samples~/DialogueSystem/Prefabs/Character.prefab
+  uploadId: 953760

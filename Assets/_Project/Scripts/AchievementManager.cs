@@ -71,7 +71,21 @@ public class AchievementManager : MonoBehaviour
             {
                 completedAchievements.Add(achievement);
                 OnAchievementCompleted?.Invoke(achievement);
+
+                if (!string.IsNullOrEmpty(achievement.vnScriptName))
+                {
+                    PlayAchievementVnScript(achievement.vnScriptName);
+                }
             }
+        }
+    }
+
+    private async void PlayAchievementVnScript(string scriptName)
+    {
+        var scriptPlayer = Naninovel.Engine.GetService<Naninovel.IScriptPlayer>();
+        if (scriptPlayer != null)
+        {
+            await scriptPlayer.PreloadAndPlayAsync(scriptName);
         }
     }
 
@@ -119,5 +133,13 @@ public class AchievementManager : MonoBehaviour
             default:
                 return 0;
         }
+    }
+}
+
+public static class ScriptPlayerExtensions
+{
+    public static async UnityEngine.Awaitable PreloadAndPlayAsync(this Naninovel.IScriptPlayer player, string scriptName)
+    {
+        await Naninovel.ScriptTrackExtensions.LoadAndPlay(player.MainTrack, scriptName);
     }
 }

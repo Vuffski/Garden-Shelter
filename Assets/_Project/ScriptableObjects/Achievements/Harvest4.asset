@@ -16,7 +16,10 @@ MonoBehaviour:
   Type: 0
   SpecificPlant: {fileID: 0}
   TargetValue: 4
+  vnScriptName: Entry
   UnlockDescription: New Plant - CARROT
   PlantsToUnlock:
   - {fileID: 11400000, guid: f5d244b2ab6def747b8b809b630c86c7, type: 2}
   DoggiesToUnlock: []
+  RequiredAchievement: {fileID: 0}
+  RequiredDoggy: {fileID: 0}

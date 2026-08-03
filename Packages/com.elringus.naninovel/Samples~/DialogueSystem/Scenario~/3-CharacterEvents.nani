@@ -1,0 +1,111 @@
+@if { zedWasted & !zedRaised }
+    ...
+    It seems Mr. Zed wasn't able to regain his visibility yet.
+    @exitDialogue
+
+@shake
+Z: Yo, what's up?!
+Z: Notice how my text is colored and my name is displayed above the text printer?[-] That's because the text in the script is prefixed with my character identifier: <b>Z</b>!
+Z: The exact color and display name are specified on the "Characters/Z/Dialogue/Character" game object.
+Z: While you usually create character records in Naninovel, you can also use the <color=red>Transient Character</color> component to author a character directly in the scene!
+Z: The template game object can be created via the "Naninovel/Character" scene menu.
+
+@shake count:4
+Z: But that's not all!
+Z: We can also react to appearance changes from scenario scripts using "Appearance Events".
+Z.Spin: For example, the "Spin" appearance is now applied — the event is handled by enabling the "Spinner" component on my face![-] So refreshing![-] You should try that too!
+Z.Default: And now I'm back to normal.
+
+@shake count:2 power:1 hor!
+Z: But that's still not all!
+Z: We can also react to various character properties set in scenario scripts.[-] For example, check this!
+
+@set scale=1
+@async Grow loop!
+    @set scale+=0.01
+    @char Z scale:{scale}
+    @stop Grow if:scale>2
+    @wait 0.01
+
+Z: I'm reacting to the scale command in the scenario script and changing my game object's scale in the scene![-] This is wired via the "Character Events" component.
+@await Grow
+
+@char Z tint:#ffcccc30
+Z: And now I've changed the tint color.
+
+@if zedRaised
+    Z: And now I'm invis...
+    Z: Let's not repeat this, shall we?
+    @exitDialogue
+
+@hide Z
+Z: And now I'm invisible!
+Z: ...
+Z: Wait...[-] How do I regain my...[< speed:0.1][>]
+
+@hidePrinter time:1 wait!
+@set zedWasted=true
+@exitDialogue
+
+; The following 'Rise' script section is played from the timeline.
+# Rise
+
+@back Cosmos.Crumble time:3 wait!
+@wait 1
+
+@printer Fullscreen
+You find yourself drifting through a vast, endless cosmos. The stars shimmer like frozen sparks suspended in glass, their light pulsing in slow, deliberate rhythm.[-] There is no ground, no sky — only the infinite expanse folding in on itself, whispering fragments of forgotten thoughts.
+
+A gentle current carries you forward, past nebulas that hum with color, past constellations that shift and rearrange as if aware of your gaze.[-] You sense the faint echo of voices — familiar yet distant — blending with the soft vibration of the void.
+
+@printer Dialogue
+...
+@char Hero.Confused
+What's going on here...
+Wait... [-]Why am I a flat circle?[-] And my expression is literally written over my face...
+
+@char Zed.Excited
+Zed: Because we're in a two-dee space, dude!
+@shake
+Hero.Surprised: Mr. Zed![-] Is that you?!
+Zed: Positive. Though we're <b>placeholder</b> characters currently.[-] Useful for sketching the scenario before you have the visuals ready.
+Hero.Hopeful: We have to get back — Winchester won't let me finish the tutorial without you!
+Zed.Concerned: I'd love to, but you have to persuade Gok to let us go.
+
+@char Gok.??? pos:80 look:Left
+@char Zed pos:10 look:Right
+@char Hero pos:25 look:Right
+Gok: Well, well, what do we have here?[-] Wanna return to the 3D world? Pass my quiz and you're free.
+
+@choiceHandler ButtonList default!
+@set mentionedLb=false
+# Choice
+@choice "42!" lock:mentionedLb
+    Hero: 42!
+    Gok.Confused: What's that?
+    Hero: {lbName} told me to pass you this...
+    Gok.Amused: Nice try, but that's from another sample — won't work here.
+    @set mentionedLb=true
+    @char Hero.Confused
+    @gosub #Choice
+@choice "Fine..."
+
+Gok: I'll now think of a random number, and your goal is to figure out what it is.
+
+; Guess the number game.
+@set number=random(1,100);answer=0
+@while answer!=number
+    @input answer summary:"Guess a number between 1 and 100"
+    @if answer<number
+        Gok: Wrong, too low.
+    @else if:answer>number
+        Gok: Wrong, too high.
+    @else
+        Gok: Correct!
+
+Gok: OK, you can go now.[if mentionedLb][-] Say hi to {lbName} =)[endif]
+
+@set zedRaised=true
+@hideAll time:3 wait!
+@char Z scale:1 visible!
+@exitDialogue

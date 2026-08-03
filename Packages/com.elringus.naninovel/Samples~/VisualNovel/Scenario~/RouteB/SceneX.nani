@@ -1,0 +1,19 @@
+; Played when the player chooses blue portal in the entry script.
+
+@trans RadialWiggle time:5 easing:Spring
+    @despawnAll
+    @back Snow tint:#ffffff
+    @snow power:0.25
+
+MC: ...
+MC: These fields look like someone dumped a mountain of powdered sugar.
+MC.Excited: Perfect spot for a snow angel contest—judges: absolutely zero.
+MC: My boots are basically secret ice skates at this point.
+MC.Laughing: If I lob a snowball just right, do I unlock achievement "Frosty Sniper"?
+
+@toast "Unlocked: Frosty Sniper"
+@hidePrinter
+@wait 2
+MC.Neutral: ...
+
+@goto ./SceneY

@@ -1,0 +1,16 @@
+; Second day of 'Route A'.
+
+@trans CircleReveal time:3
+    @hidePrinter
+    @hideChars
+    @back tint:white
+    @sun power:0.25
+
+Night passes...
+
+MC: Sunrise never looked so... searing.
+MC: This isn't "running wild", it's "running melt".
+MC: Time to track down that rumored oasis—and maybe a cold drink.
+
+@set g_clearedA=true
+@title

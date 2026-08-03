@@ -1,0 +1,38 @@
+@char W rotation:0,135
+
+@unless zedWasted
+    W: Mr. Zed hasn't finished with you yet. Go speak with him first.
+    @exitDialogue
+
+@unless zedRaised
+    W: Hey, where's Mr. Zed?[-] I can't see him...[>]
+    @choice "Lost his visibility"
+        MC: Lost his visibility or something...
+        W: Lost his...[wait 1][shake] what?
+    @choice "It's not my fault!"
+        MC: I swear I didn't do anything to him!
+        MC: He just...[-] vanished?
+        W: ...
+    W: Sorry. Maybe we can finish that tutorial later.
+    @exitDialogue
+
+W: He's back!
+MC: Yes?
+W: So it wasn't you after all!
+MC: ...[-] No?
+W: Sorry for doubting you!
+MC: Donmai.
+W: Let's finish the tutorial, then.
+W: These bubbles are a type of text printer you can add from the "Naninovel/Text Printer" scene menu.
+W: You can then link them to the "Transient Actor" component via the "Linked Printer" property.
+W: They'll be used automatically when the associated character speaks.
+W: The "Naninovel/Choice Handler" works similarly, but you don't need to link it — it's used automatically when a choice command is executed.
+W: Of course, you can change the printer and choice handler at any time in scripts with the @printer and @choiceHandler commands.
+
+@back Black
+@printer Fullscreen
+
+And that's it for the Dialogue tutorial!  
+Go ahead and experiment with this scene — you'll get the hang of it in no time.  
+If you have any questions or run into issues, feel free to contact support at <b>naninovel.com/support</b>.  
+See ya!
