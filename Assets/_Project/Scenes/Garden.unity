@@ -1432,6 +1432,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1772447189}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 
       objectReference: {fileID: 11400000, guid: 96bb6cf658c56a849a78c9250e00057a, type: 2}
@@ -2214,6 +2218,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1772447189}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 
@@ -3624,6 +3632,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1772447189}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 
       objectReference: {fileID: 11400000, guid: c4f290824e670be44bcd24ac45a56f8f, type: 2}
@@ -3889,6 +3901,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1772447189}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 
@@ -4406,6 +4422,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1772447189}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 
@@ -5851,6 +5871,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1772447189}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 
       objectReference: {fileID: 11400000, guid: 15b6e7bedce49b24881b84ab5aa4e9b0, type: 2}
@@ -6096,6 +6120,10 @@ PrefabInstance:
       propertyPath: manager
       value: 
       objectReference: {fileID: 1772447189}
+    - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
+      propertyPath: unlockManager
+      value: 
+      objectReference: {fileID: 1740441667}
     - target: {fileID: 1340150197006446722, guid: a88600559cca24d41bed7242c6fbb5f7, type: 3}
       propertyPath: achievementData
       value: 

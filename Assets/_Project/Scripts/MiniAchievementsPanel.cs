@@ -27,7 +27,8 @@ public class MiniAchievementsPanel : MonoBehaviour
         if (achievementManager == null || slots == null) return;
 
         // Fully rebuild the incomplete achievements list from scratch.
-        List<AchievementData> incompleteAchievements = new List<AchievementData>();
+        List<AchievementData> listA = new List<AchievementData>(); // Ready-to-collect
+        List<AchievementData> listB = new List<AchievementData>(); // Neither ready nor completed
         
         var all = achievementManager.AllAchievements;
         if (all != null)
@@ -35,29 +36,46 @@ public class MiniAchievementsPanel : MonoBehaviour
             for (int i = 0; i < all.Count; i++)
             {
                 AchievementData a = all[i];
-                if (a != null && !achievementManager.IsCompleted(a) && achievementManager.IsUnlocked(a))
+                if (a != null && achievementManager.IsUnlocked(a))
                 {
-                    incompleteAchievements.Add(a);
+                    if (achievementManager.IsCompleted(a))
+                    {
+                        continue;
+                    }
+
+                    if (achievementManager.IsReadyToCollect(a))
+                    {
+                        listA.Add(a);
+                    }
+                    else
+                    {
+                        listB.Add(a);
+                    }
                 }
             }
         }
 
-        // Re-sort descending by current progress.
-        incompleteAchievements.Sort((x, y) =>
+        // Re-sort descending by progress ratio.
+        listB.Sort((x, y) =>
         {
-            int progressX = achievementManager.GetProgress(x);
-            int progressY = achievementManager.GetProgress(y);
+            float progressX = x.TargetValue > 0 ? (float)achievementManager.GetProgress(x) / x.TargetValue : 0f;
+            float progressY = y.TargetValue > 0 ? (float)achievementManager.GetProgress(y) / y.TargetValue : 0f;
             return progressY.CompareTo(progressX); // Descending order
         });
+
+        // Concatenate A followed by B
+        List<AchievementData> displayedAchievements = new List<AchievementData>(listA.Count + listB.Count);
+        displayedAchievements.AddRange(listA);
+        displayedAchievements.AddRange(listB);
 
         // Reassign all slots unconditionally, calling SetData or Clear() on every single slot every frame.
         for (int i = 0; i < slots.Count; i++)
         {
             if (slots[i] == null) continue;
 
-            if (i < incompleteAchievements.Count)
+            if (i < displayedAchievements.Count)
             {
-                AchievementData achievement = incompleteAchievements[i];
+                AchievementData achievement = displayedAchievements[i];
                 float progress = achievement.TargetValue > 0 
                     ? (float)achievementManager.GetProgress(achievement) / achievement.TargetValue 
                     : 0f;

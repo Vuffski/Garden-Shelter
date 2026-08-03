@@ -16,8 +16,12 @@ public class AchievementManager : MonoBehaviour
     private int totalCoinsEarned;
 
     private HashSet<AchievementData> completedAchievements = new HashSet<AchievementData>();
+    private HashSet<AchievementData> readyToCollectAchievements = new HashSet<AchievementData>();
 
     public event Action<AchievementData> OnAchievementCompleted;
+    public event Action<AchievementData> OnAchievementReadyToCollect;
+
+    public bool IsReadyToCollect(AchievementData achievement) => readyToCollectAchievements.Contains(achievement);
 
     private void Awake()
     {
@@ -66,26 +70,34 @@ public class AchievementManager : MonoBehaviour
         {
             if (achievement == null) continue;
             if (completedAchievements.Contains(achievement)) continue;
+            if (readyToCollectAchievements.Contains(achievement)) continue;
 
             if (achievement.TargetValue > 0 && (float)GetProgress(achievement) / achievement.TargetValue >= 1f)
             {
-                completedAchievements.Add(achievement);
-                OnAchievementCompleted?.Invoke(achievement);
-
-                if (!string.IsNullOrEmpty(achievement.vnScriptName))
-                {
-                    PlayAchievementVnScript(achievement.vnScriptName);
-                }
+                readyToCollectAchievements.Add(achievement);
+                OnAchievementReadyToCollect?.Invoke(achievement);
             }
         }
     }
 
-    private async void PlayAchievementVnScript(string scriptName)
+    public async void ClaimAchievement(AchievementData achievement)
     {
-        var scriptPlayer = Naninovel.Engine.GetService<Naninovel.IScriptPlayer>();
-        if (scriptPlayer != null)
+        if (achievement == null || !readyToCollectAchievements.Contains(achievement) || completedAchievements.Contains(achievement))
         {
-            await scriptPlayer.PreloadAndPlayAsync(scriptName);
+            return;
+        }
+
+        readyToCollectAchievements.Remove(achievement);
+        completedAchievements.Add(achievement);
+        OnAchievementCompleted?.Invoke(achievement);
+
+        if (!string.IsNullOrEmpty(achievement.vnScriptName))
+        {
+            var scriptPlayer = Naninovel.Engine.GetService<Naninovel.IScriptPlayer>();
+            if (scriptPlayer != null)
+            {
+                await scriptPlayer.PreloadAndPlayAsync(achievement.vnScriptName);
+            }
         }
     }
 

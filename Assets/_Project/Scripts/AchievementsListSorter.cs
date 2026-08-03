@@ -20,20 +20,29 @@ public class AchievementsListSorter : MonoBehaviour
 
         var sortedEntries = validEntries.OrderBy(e =>
         {
-            int progress = manager.GetProgress(e.achievementData);
-            int target = e.achievementData.TargetValue;
-            bool isComplete = progress >= target;
-            return isComplete; // false (incomplete) first, true (complete) last
+            if (manager.IsReadyToCollect(e.achievementData)) return 0;
+            if (manager.IsCompleted(e.achievementData)) return 2;
+            return 1;
         })
         .ThenByDescending(e =>
         {
+            if (manager.IsCompleted(e.achievementData) || manager.IsReadyToCollect(e.achievementData))
+            {
+                return 0f;
+            }
+
             int progress = manager.GetProgress(e.achievementData);
             int target = e.achievementData.TargetValue;
-            bool isComplete = progress >= target;
-            if (isComplete) return 0f; // complete ones can have any key, since order doesn't matter
-
             if (target <= 0) return 0f;
             return (float)progress / target;
+        })
+        .ThenBy(e =>
+        {
+            if (manager.IsReadyToCollect(e.achievementData))
+            {
+                return e.achievementData.Title;
+            }
+            return string.Empty;
         })
         .ToList();
 
