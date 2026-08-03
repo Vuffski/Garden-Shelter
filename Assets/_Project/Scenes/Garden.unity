@@ -5661,9 +5661,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2012311640}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c70c5b4c76f158a448998dda7fdd0562, type: 3}
+  m_Script: {fileID: 11500000, guid: 90e1005fb7731c0429611ccaf5e3eba6, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NaninovelGameplayMediator
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayVisibilityController
+  objectsToHide:
+  - {fileID: 14312992}
+  tileClickHandler: {fileID: 2012311641}
 --- !u!224 &2073544656 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2527166416757334408, guid: c1f0246ddc7efd44dbad889f04e02f42, type: 3}
