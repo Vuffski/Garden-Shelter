@@ -33,12 +33,21 @@ public class GameplayVisibilityController : MonoBehaviour
         }
 
         bool isPlaying = scriptPlayer.Playing;
-
-        if (lastPlayingState == null || lastPlayingState.Value != isPlaying)
+        bool isChoiceUIVisible = false;
+        if (Engine.Initialized)
         {
-            lastPlayingState = isPlaying;
+            var uiManager = Engine.GetService<IUIManager>();
+            var choicePanel = uiManager?.GetUI<Naninovel.UI.ChoiceHandlerPanel>();
+            isChoiceUIVisible = choicePanel != null && choicePanel.Visible;
+        }
 
-            bool shouldShow = !isPlaying;
+        bool shouldHide = isPlaying || isChoiceUIVisible;
+
+        if (lastPlayingState == null || lastPlayingState.Value != shouldHide)
+        {
+            lastPlayingState = shouldHide;
+
+            bool shouldShow = !shouldHide;
 
             if (objectsToHide != null)
             {
