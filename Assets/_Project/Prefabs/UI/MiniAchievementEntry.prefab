@@ -591,7 +591,6 @@ GameObject:
   - component: {fileID: 2527166416757334408}
   - component: {fileID: 9050140771634383256}
   - component: {fileID: 3840599107307629002}
-  - component: {fileID: 1340150197006446722}
   - component: {fileID: 6517300505427394713}
   m_Layer: 5
   m_Name: MiniAchievementEntry
@@ -662,25 +661,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 2
---- !u!114 &1340150197006446722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7020688821176710362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfa87aa1f91ba374bb35b27f3794647f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AchievementEntryView
-  achievementData: {fileID: 0}
-  titleLabel: {fileID: 7063890287542506221}
-  descriptionLabel: {fileID: 1363715567473460516}
-  progressBar: {fileID: 5772051803647633722}
-  achievementManager: {fileID: 0}
-  unlockManager: {fileID: 0}
-  doggyIconImage: {fileID: 4555417471984525340}
 --- !u!114 &6517300505427394713
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5192,7 +5192,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1772447190}
   - component: {fileID: 1772447189}
-  - component: {fileID: 1772447191}
   - component: {fileID: 1772447192}
   m_Layer: 0
   m_Name: AchievementManager
@@ -5237,19 +5236,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1772447191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772447188}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0117c1f09508df4ebbc76eba411df74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NaninovelBootstrapper
-  gameplayCamera: {fileID: 121307589}
 --- !u!114 &1772447192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5623,6 +5609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2012311642}
   - component: {fileID: 2012311641}
+  - component: {fileID: 2012311643}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -5665,6 +5652,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2012311643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2012311640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c70c5b4c76f158a448998dda7fdd0562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NaninovelGameplayMediator
 --- !u!224 &2073544656 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2527166416757334408, guid: c1f0246ddc7efd44dbad889f04e02f42, type: 3}
