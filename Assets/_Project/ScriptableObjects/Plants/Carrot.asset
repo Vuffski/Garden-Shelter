@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Carrot
   m_EditorClassIdentifier: Assembly-CSharp::PlantData
   PlantName: Carrot
-  Icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  IconColor: {r: 0.8207547, g: 0.37294745, b: 0, a: 1}
   Cost: 2
   GrowthTime: 10
   SellValue: 5

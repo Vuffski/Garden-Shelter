@@ -6,6 +6,7 @@ public class DoggyData : ScriptableObject
 {
     public string DoggyName;
     public Sprite Icon;
+    public Color IconColor = Color.white;
     public float Duration;
     public List<PlantCost> Costs;
 

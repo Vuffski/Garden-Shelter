@@ -88,6 +88,7 @@ public class DoggyButtonView : MonoBehaviour
                     {
                         UnityEngine.UI.Image iconInstance = Instantiate(costIconPrefab, costIconContainer);
                         iconInstance.sprite = cost.Plant.Icon;
+                        iconInstance.color = cost.Plant.IconColor;
                         costIcons.Add(iconInstance);
                     }
                 }
@@ -132,11 +133,24 @@ public class DoggyButtonView : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        foreach (var icon in costIcons)
+        int iconIndex = 0;
+        if (doggyData != null && doggyData.Costs != null)
         {
-            if (icon != null)
+            foreach (var cost in doggyData.Costs)
             {
-                icon.color = Color.white;
+                if (cost.Plant == null) continue;
+                for (int i = 0; i < cost.Amount; i++)
+                {
+                    if (iconIndex < costIcons.Count)
+                    {
+                        var icon = costIcons[iconIndex];
+                        if (icon != null)
+                        {
+                            icon.color = cost.Plant.IconColor;
+                        }
+                        iconIndex++;
+                    }
+                }
             }
         }
 

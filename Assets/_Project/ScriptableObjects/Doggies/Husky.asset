@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Husky
   m_EditorClassIdentifier: Assembly-CSharp::DoggyData
   DoggyName: Husky
-  Icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  Icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  IconColor: {r: 0, g: 1, b: 1, a: 1}
   Duration: 20
   Costs:
   - Plant: {fileID: 11400000, guid: f5d244b2ab6def747b8b809b630c86c7, type: 2}

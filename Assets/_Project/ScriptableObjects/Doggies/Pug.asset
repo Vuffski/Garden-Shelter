@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Pug
   m_EditorClassIdentifier: Assembly-CSharp::DoggyData
   DoggyName: Pug
-  Icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  Icon: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  IconColor: {r: 0, g: 1, b: 0.29478312, a: 1}
   Duration: 10
   Costs:
   - Plant: {fileID: 11400000, guid: 444713ceae56dcb4ea25b85f5d154523, type: 2}

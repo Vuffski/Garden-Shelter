@@ -217,6 +217,7 @@ public class TileView : MonoBehaviour
         if (plantIconRenderer != null)
         {
             plantIconRenderer.sprite = plant.Icon;
+            plantIconRenderer.color = plant.IconColor;
             plantIconRenderer.gameObject.SetActive(true);
         }
         IsOccupied = true;
@@ -279,6 +280,7 @@ public class TileView : MonoBehaviour
         if (plantIconRenderer != null)
         {
             plantIconRenderer.sprite = doggy.Icon;
+            plantIconRenderer.color = doggy.IconColor;
             plantIconRenderer.gameObject.SetActive(true);
         }
         ApplyIconScale(doggy.Icon);
