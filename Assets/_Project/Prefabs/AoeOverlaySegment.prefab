@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6923064755617520862}
   - component: {fileID: 3699173207169587024}
   - component: {fileID: 1109660405586355253}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: AoeOverlaySegment
   m_TagString: Untagged
   m_Icon: {fileID: 0}

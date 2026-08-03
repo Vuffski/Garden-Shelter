@@ -7,6 +7,9 @@ public class NaninovelGameplayMediator : MonoBehaviour
     private Canvas gameplayCanvas;
     private TileClickHandler tileClickHandler;
     private IScriptPlayer scriptPlayer;
+    private ITextPrinterManager printerManager;
+    private IChoiceHandlerManager choiceManager;
+    private bool wasNaninovelActive = false;
 
     private void Start()
     {
@@ -34,13 +37,17 @@ public class NaninovelGameplayMediator : MonoBehaviour
         }
 
         scriptPlayer = Engine.GetService<IScriptPlayer>();
+        printerManager = Engine.GetService<ITextPrinterManager>();
+        choiceManager = Engine.GetService<IChoiceHandlerManager>();
+
         if (scriptPlayer != null)
         {
             scriptPlayer.OnPlay += HandlePlay;
             scriptPlayer.OnStop += HandleStop;
             
-            // Set initial state based on current playback status
-            UpdateState(scriptPlayer.Playing);
+            // Set initial state strictly
+            wasNaninovelActive = IsNaninovelActive();
+            UpdateState(wasNaninovelActive);
         }
         else
         {
@@ -59,28 +66,83 @@ public class NaninovelGameplayMediator : MonoBehaviour
 
     private void HandlePlay(IScriptTrack track)
     {
-        UpdateState(true);
+        EvaluateState();
     }
 
     private void HandleStop(IScriptTrack track)
     {
-        UpdateState(false);
+        EvaluateState();
     }
 
-    private void UpdateState(bool isPlaying)
+    private void Update()
+    {
+        if (!Engine.Initialized)
+        {
+            if (wasNaninovelActive)
+            {
+                wasNaninovelActive = false;
+                UpdateState(false);
+            }
+            return;
+        }
+
+        EvaluateState();
+    }
+
+    private void EvaluateState()
+    {
+        if (printerManager == null) printerManager = Engine.GetService<ITextPrinterManager>();
+        if (choiceManager == null) choiceManager = Engine.GetService<IChoiceHandlerManager>();
+
+        bool isCurrentlyActive = IsNaninovelActive();
+        if (isCurrentlyActive != wasNaninovelActive)
+        {
+            wasNaninovelActive = isCurrentlyActive;
+            UpdateState(isCurrentlyActive);
+        }
+    }
+
+    private bool IsNaninovelActive()
+    {
+        if (!Engine.Initialized) return false;
+
+        // 1. Check if the script player is playing or executing commands
+        if (scriptPlayer != null && (scriptPlayer.Playing || scriptPlayer.Executing))
+        {
+            return true;
+        }
+
+        // 2. Check if any text printer (dialogue box) is active and visible
+        if (printerManager != null)
+        {
+            var printer = printerManager.FindActor(p => p.Visible);
+            if (printer != null) return true;
+        }
+
+        // 3. Check if any choice handler (dialogue choice panel) is active and visible
+        if (choiceManager != null)
+        {
+            var handler = choiceManager.FindActor(h => h.Visible);
+            if (handler != null) return true;
+        }
+
+        return false;
+    }
+
+    private void UpdateState(bool isNaninovelActive)
     {
         // Hide/show the Canvas
         if (gameplayCanvas != null)
         {
-            gameplayCanvas.enabled = !isPlaying;
-            Debug.Log($"[NaninovelGameplayMediator] Set Canvas enabled to {!isPlaying}");
+            gameplayCanvas.enabled = !isNaninovelActive;
+            Debug.Log($"[NaninovelGameplayMediator] Set Canvas enabled to {!isNaninovelActive}");
         }
 
         // Disable/enable tile click interactions
         if (tileClickHandler != null)
         {
-            tileClickHandler.enabled = !isPlaying;
-            Debug.Log($"[NaninovelGameplayMediator] Set TileClickHandler enabled to {!isPlaying}");
+            tileClickHandler.enabled = !isNaninovelActive;
+            Debug.Log($"[NaninovelGameplayMediator] Set TileClickHandler enabled to {!isNaninovelActive}");
         }
     }
 }

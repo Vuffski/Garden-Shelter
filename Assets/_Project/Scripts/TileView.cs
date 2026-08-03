@@ -102,6 +102,10 @@ public class TileView : MonoBehaviour
         {
             GameObject spawnedOverlay = Instantiate(aoeOverlayPrefab, transform);
             spawnedOverlay.transform.localPosition = Vector3.zero;
+            
+            // Set layer to match the tile's layer (Default) to prevent Naninovel's UI camera from rendering it
+            spawnedOverlay.layer = gameObject.layer;
+
             SpriteRenderer sr = spawnedOverlay.GetComponent<SpriteRenderer>();
             
             AoeOverlayFlash flasher = spawnedOverlay.GetComponent<AoeOverlayFlash>();
