@@ -136,13 +136,30 @@ public class TileView : MonoBehaviour
         if (doggy == null) return;
         influencedTiles.Clear();
 
-        ApplyDirection(doggy, 0, 1, doggy.RangeUp);
+        int rUp = doggy.RangeUp;
+        int rDown = doggy.RangeDown;
+        int rLeft = doggy.RangeLeft;
+        int rRight = doggy.RangeRight;
+
+        if (AchievementManager.Instance != null)
+        {
+            DoggyEffectiveStats stats = DoggyEffectiveStats.Resolve(doggy, AchievementManager.Instance);
+            if (stats != null)
+            {
+                rUp = stats.rangeUp;
+                rDown = stats.rangeDown;
+                rLeft = stats.rangeLeft;
+                rRight = stats.rangeRight;
+            }
+        }
+
+        ApplyDirection(doggy, 0, 1, rUp);
         ApplyDirection(doggy, 1, 1, doggy.RangeUpRight);
-        ApplyDirection(doggy, 1, 0, doggy.RangeRight);
+        ApplyDirection(doggy, 1, 0, rRight);
         ApplyDirection(doggy, 1, -1, doggy.RangeDownRight);
-        ApplyDirection(doggy, 0, -1, doggy.RangeDown);
+        ApplyDirection(doggy, 0, -1, rDown);
         ApplyDirection(doggy, -1, -1, doggy.RangeDownLeft);
-        ApplyDirection(doggy, -1, 0, doggy.RangeLeft);
+        ApplyDirection(doggy, -1, 0, rLeft);
         ApplyDirection(doggy, -1, 1, doggy.RangeUpLeft);
     }
 
@@ -241,7 +258,16 @@ public class TileView : MonoBehaviour
         {
             if (doggy != null && doggy.UseGrowthSpeed)
             {
-                multiplier *= doggy.GrowthMultiplier;
+                float mod = doggy.GrowthMultiplier;
+                if (AchievementManager.Instance != null)
+                {
+                    DoggyEffectiveStats stats = DoggyEffectiveStats.Resolve(doggy, AchievementManager.Instance);
+                    if (stats != null)
+                    {
+                        mod = stats.growthSpeedModifier;
+                    }
+                }
+                multiplier *= mod;
             }
         }
         return multiplier;
@@ -264,7 +290,43 @@ public class TileView : MonoBehaviour
             growthBar.SetActive(false);
         }
         IsReadyToHarvest = true;
-        glowCoroutine = StartCoroutine(GlowRoutine());
+
+        bool autoHarvested = false;
+        if (AchievementManager.Instance != null)
+        {
+            foreach (DoggyData doggy in aoeOverlays.Keys)
+            {
+                if (doggy != null)
+                {
+                    DoggyEffectiveStats stats = DoggyEffectiveStats.Resolve(doggy, AchievementManager.Instance);
+                    if (stats != null && stats.autoHarvestEnabled)
+                    {
+                        autoHarvested = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (autoHarvested)
+        {
+            HarvestResult result = Harvest();
+            if (result.Plant != null)
+            {
+                if (HarvestInventory.Instance != null)
+                {
+                    HarvestInventory.Instance.AddHarvest(result.Plant, result.Amount);
+                }
+                if (AchievementManager.Instance != null)
+                {
+                    AchievementManager.Instance.RegisterHarvest(result.Plant, result.Amount);
+                }
+            }
+        }
+        else
+        {
+            glowCoroutine = StartCoroutine(GlowRoutine());
+        }
     }
 
     public void PlaceDoggy(DoggyData doggy)

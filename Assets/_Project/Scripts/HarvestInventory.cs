@@ -4,9 +4,24 @@ using UnityEngine;
 
 public class HarvestInventory : MonoBehaviour
 {
+    public static HarvestInventory Instance { get; private set; }
+
     private Dictionary<PlantData, int> counts = new Dictionary<PlantData, int>();
 
     public event Action<PlantData> OnCountChanged;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     public int GetCount(PlantData plant)
     {

@@ -19,4 +19,6 @@ MonoBehaviour:
   UnlockDescription: New Doggy - WOLF
   PlantsToUnlock: []
   DoggiesToUnlock:
-  - {fileID: 11400000, guid: 4fc2080b280ac12468618e4768048605, type: 2}
+  - {fileID: 11400000, guid: 65942dd097425374ca63179344ad37ec, type: 2}
+  RequiredAchievement: {fileID: 0}
+  RequiredDoggy: {fileID: 0}

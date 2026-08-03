@@ -33,3 +33,14 @@ MonoBehaviour:
   GrowthMultiplier: 0.8
   UseYield: 0
   YieldChance: 0
+  growthSpeedModifier: 1
+  autoHarvestEnabled: 0
+  upgrades:
+  - requiredAchievement: {fileID: 11400000, guid: 96bb6cf658c56a849a78c9250e00057a, type: 2}
+    statType: 0
+    directions: 2
+    value: 1
+  - requiredAchievement: {fileID: 11400000, guid: c182f93eafbd352448e882214b0be890, type: 2}
+    statType: 2
+    directions: 0
+    value: 1

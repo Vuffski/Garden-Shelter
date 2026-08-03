@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AchievementManager : MonoBehaviour
 {
+    public static AchievementManager Instance { get; private set; }
+
     [SerializeField] private List<AchievementData> allAchievements;
     [SerializeField] private UnlockManager unlockManager;
 
@@ -16,6 +18,19 @@ public class AchievementManager : MonoBehaviour
     private HashSet<AchievementData> completedAchievements = new HashSet<AchievementData>();
 
     public event Action<AchievementData> OnAchievementCompleted;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            Instance = null;
+        }
+    }
 
     public void RegisterHarvest(PlantData plant, int amount)
     {

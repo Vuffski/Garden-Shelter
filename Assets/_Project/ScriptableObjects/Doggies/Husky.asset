@@ -33,3 +33,6 @@ MonoBehaviour:
   GrowthMultiplier: 1
   UseYield: 1
   YieldChance: 0.5
+  growthSpeedModifier: 1
+  autoHarvestEnabled: 0
+  upgrades: []

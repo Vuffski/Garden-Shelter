@@ -28,4 +28,20 @@ public class DoggyData : ScriptableObject
     public float GrowthMultiplier = 1f;
     public bool UseYield;
     public float YieldChance = 0f;
+
+    [Header("Baseline Settings")]
+    public float growthSpeedModifier = 1f;
+    public bool autoHarvestEnabled = false;
+
+    [System.Serializable]
+    public class DoggyUpgrade
+    {
+        public AchievementData requiredAchievement;
+        public DoggyStatType statType;
+        public DoggyDirectionFlags directions; // only used when statType == AoERange
+        public float value;
+    }
+
+    [Header("Upgrades")]
+    public List<DoggyUpgrade> upgrades;
 }
