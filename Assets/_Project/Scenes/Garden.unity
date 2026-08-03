@@ -2534,6 +2534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0117c1f09508df4ebbc76eba411df74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NaninovelBootstrapper
+  gameplayCamera: {fileID: 121307589}
 --- !u!4 &940381267
 Transform:
   m_ObjectHideFlags: 0
@@ -5192,6 +5193,7 @@ GameObject:
   - component: {fileID: 1772447190}
   - component: {fileID: 1772447189}
   - component: {fileID: 1772447191}
+  - component: {fileID: 1772447192}
   m_Layer: 0
   m_Name: AchievementManager
   m_TagString: Untagged
@@ -5247,6 +5249,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0117c1f09508df4ebbc76eba411df74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NaninovelBootstrapper
+  gameplayCamera: {fileID: 121307589}
+--- !u!114 &1772447192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772447188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86716bf622b145b49b1edb6534862943, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EventSystemEnforcer
 --- !u!224 &1791865698 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 638789069688832955, guid: 23dc57c6089e2dc4289be891f208e380, type: 3}
@@ -5627,6 +5642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc6a5818c022f843bcfefcc8ccdff4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TileClickHandler
+  gameplayCamera: {fileID: 121307589}
   plantSelection: {fileID: 168229679}
   doggySelection: {fileID: 382478045}
   economyManager: {fileID: 1587354054}

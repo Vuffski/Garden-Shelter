@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class TileClickHandler : MonoBehaviour
 {
+    [SerializeField] private Camera gameplayCamera;
+
     public PlantSelectionManager plantSelection;
     public DoggySelectionManager doggySelection;
     public EconomyManager economyManager;
@@ -20,9 +22,9 @@ public class TileClickHandler : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             Vector2 mouseScreenPos = Mouse.current.position.ReadValue();
-            if (Camera.main != null)
+            if (gameplayCamera != null)
             {
-                Vector3 worldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
+                Vector3 worldPos = gameplayCamera.ScreenToWorldPoint(mouseScreenPos);
                 worldPos.z = 0f;
 
                 Collider2D hitCollider = Physics2D.OverlapPoint(worldPos);
