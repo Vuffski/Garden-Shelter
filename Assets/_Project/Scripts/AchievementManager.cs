@@ -8,6 +8,7 @@ public class AchievementManager : MonoBehaviour
 
     [SerializeField] private List<AchievementData> allAchievements;
     [SerializeField] private UnlockManager unlockManager;
+    [SerializeField] private TreatManager treatManager;
 
     public IReadOnlyList<AchievementData> AllAchievements => allAchievements;
 
@@ -90,6 +91,11 @@ public class AchievementManager : MonoBehaviour
         readyToCollectAchievements.Remove(achievement);
         completedAchievements.Add(achievement);
         OnAchievementCompleted?.Invoke(achievement);
+
+        if (treatManager != null && achievement.TreatReward > 0)
+        {
+            treatManager.AddTreats(achievement.TreatReward);
+        }
 
         if (!string.IsNullOrEmpty(achievement.vnScriptName))
         {

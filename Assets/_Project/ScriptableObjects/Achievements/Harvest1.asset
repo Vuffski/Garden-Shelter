@@ -21,5 +21,6 @@ MonoBehaviour:
   PlantsToUnlock: []
   DoggiesToUnlock:
   - {fileID: 11400000, guid: 65942dd097425374ca63179344ad37ec, type: 2}
+  TreatReward: 1
   RequiredAchievement: {fileID: 0}
   RequiredDoggy: {fileID: 0}

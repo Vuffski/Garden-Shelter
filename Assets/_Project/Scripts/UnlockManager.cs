@@ -6,6 +6,7 @@ public class UnlockManager : MonoBehaviour
 {
     [SerializeField] private List<PlantData> defaultUnlockedPlants;
     [SerializeField] private List<DoggyData> defaultUnlockedDoggies;
+    [SerializeField] private List<DoggyData> allDoggies;
     [SerializeField] private AchievementManager achievementManager;
 
     private HashSet<PlantData> unlockedPlants = new HashSet<PlantData>();
@@ -100,5 +101,42 @@ public class UnlockManager : MonoBehaviour
     {
         if (doggy == null) return false;
         return unlockedDoggies.Contains(doggy);
+    }
+
+    public bool AnyDoggiesLeftToUnlock()
+    {
+        if (allDoggies == null) return false;
+        foreach (var doggy in allDoggies)
+        {
+            if (doggy != null && !unlockedDoggies.Contains(doggy))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public DoggyData UnlockRandomDoggy()
+    {
+        if (allDoggies == null) return null;
+
+        List<DoggyData> lockedDoggies = new List<DoggyData>();
+        foreach (var doggy in allDoggies)
+        {
+            if (doggy != null && !unlockedDoggies.Contains(doggy))
+            {
+                lockedDoggies.Add(doggy);
+            }
+        }
+
+        if (lockedDoggies.Count == 0) return null;
+
+        int index = UnityEngine.Random.Range(0, lockedDoggies.Count);
+        DoggyData chosenDoggy = lockedDoggies[index];
+
+        unlockedDoggies.Add(chosenDoggy);
+        OnDoggyUnlocked?.Invoke(chosenDoggy);
+
+        return chosenDoggy;
     }
 }
