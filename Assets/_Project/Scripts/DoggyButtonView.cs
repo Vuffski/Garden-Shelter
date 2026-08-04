@@ -8,6 +8,7 @@ public class DoggyButtonView : MonoBehaviour
     private static List<DoggyButtonView> allButtons = new List<DoggyButtonView>();
 
     public DoggyData doggyData;
+    public DoggyData DoggyData => doggyData;
     public TMP_Text label;
     public DoggySelectionManager manager;
     public Transform costIconContainer;
