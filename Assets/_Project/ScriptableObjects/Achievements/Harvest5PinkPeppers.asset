@@ -16,9 +16,11 @@ MonoBehaviour:
   Type: 1
   SpecificPlant: {fileID: 11400000, guid: a8b9673e135e7644ea3e323be621e0f1, type: 2}
   TargetValue: 5
+  vnScriptName: 
   UnlockDescription: New Doggy - Pug
   PlantsToUnlock: []
   DoggiesToUnlock:
-  - {fileID: 11400000, guid: 4fc2080b280ac12468618e4768048605, type: 2}
+  - {fileID: 0}
+  TreatReward: 1
   RequiredAchievement: {fileID: 0}
   RequiredDoggy: {fileID: 0}

@@ -16,7 +16,11 @@ MonoBehaviour:
   Type: 0
   SpecificPlant: {fileID: 0}
   TargetValue: 2
+  vnScriptName: 
   UnlockDescription: New Doggy - Husky
   PlantsToUnlock: []
   DoggiesToUnlock:
-  - {fileID: 11400000, guid: 3cea8599aec5b4d4b8b7e24ac1e50882, type: 2}
+  - {fileID: 0}
+  TreatReward: 1
+  RequiredAchievement: {fileID: 0}
+  RequiredDoggy: {fileID: 0}
