@@ -16,6 +16,8 @@ public class PlantButtonView : MonoBehaviour
     public UnlockManager unlockManager;
 
     private Color normalCostColor;
+    private Color originalOwnedColor;
+    private bool isOwnedColorCached;
     private Coroutine flashCoroutine;
 
     private void Awake()
@@ -84,7 +86,24 @@ public class PlantButtonView : MonoBehaviour
     {
         if (ownedLabel != null && inventory != null)
         {
+            if (!isOwnedColorCached)
+            {
+                originalOwnedColor = ownedLabel.color;
+                isOwnedColorCached = true;
+            }
+
             ownedLabel.text = inventory.GetCount(plantData).ToString();
+
+            if (inventory.IsAtStorageCap(plantData))
+            {
+                ownedLabel.fontStyle = FontStyles.Bold;
+                ownedLabel.color = Color.red;
+            }
+            else
+            {
+                ownedLabel.fontStyle = FontStyles.Normal;
+                ownedLabel.color = originalOwnedColor;
+            }
         }
     }
 

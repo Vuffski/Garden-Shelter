@@ -18,3 +18,4 @@ MonoBehaviour:
   Cost: 0
   GrowthTime: 2
   SellValue: 1
+  StorageExpansionCosts: 05000000

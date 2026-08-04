@@ -8,6 +8,8 @@ public class PlantSelectionManager : MonoBehaviour
 
     public PlantData SelectedPlant { get; private set; }
 
+    public event System.Action<PlantData> OnSelectedPlantChanged;
+
     public void SelectPlant(PlantButtonView button)
     {
         Debug.Log("SelectPlant called with: " + (button != null && button.plantData != null ? button.plantData.name : "null"));
@@ -24,11 +26,17 @@ public class PlantSelectionManager : MonoBehaviour
             button.SetBold(true);
             SelectedPlant = button.plantData;
         }
+        else
+        {
+            SelectedPlant = null;
+        }
 
         if (doggySelection != null)
         {
             doggySelection.ClearSelection();
         }
+
+        OnSelectedPlantChanged?.Invoke(SelectedPlant);
     }
 
     public void FlashSelectedCost()
@@ -47,5 +55,7 @@ public class PlantSelectionManager : MonoBehaviour
         }
         selectedButton = null;
         SelectedPlant = null;
+
+        OnSelectedPlantChanged?.Invoke(null);
     }
 }
