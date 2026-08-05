@@ -186,23 +186,7 @@ namespace Unity.AI.Assistant.PlayModeTest
             public bool success;
             public string error;
             public string[] logs;
-            public List<CameraReport> camerasReport;
         }
-
-        [System.Serializable]
-        private class CameraReport
-        {
-            public string name;
-            public string tag;
-            public int cullingMask;
-            public string cullingMaskLayers;
-            public bool orthographic;
-            public float orthoSizeOrFov;
-            public bool isMainCameraReference;
-            public string comparisonToMain;
-        }
-
-        private static List<CameraReport> finalReport = new List<CameraReport>();
 
         private static void Setup()
         {
@@ -221,22 +205,7 @@ namespace Unity.AI.Assistant.PlayModeTest
             return (bool)prop.GetValue(null);
         }
 
-        private static string GetLayerNamesFromMask(int mask)
-        {
-            if (mask == -1) return "Everything";
-            if (mask == 0) return "Nothing";
-
-            var layers = new List<string>();
-            for (int i = 0; i < 32; i++)
-            {
-                if ((mask & (1 << i)) != 0)
-                {
-                    string name = LayerMask.LayerToName(i);
-                    layers.Add(string.IsNullOrEmpty(name) ? "Layer " + i : name);
-                }
-            }
-            return string.Join(", ", layers);
-        }
+        private static bool _testExecuted = false;
 
         private static bool Tick(float elapsed)
         {
@@ -245,78 +214,107 @@ namespace Unity.AI.Assistant.PlayModeTest
                 return false; // Wait until Naninovel has initialized
             }
 
-            Debug.Log("[Test] Naninovel initialized! Beginning camera inspection.");
+            if (_testExecuted) return true;
+            _testExecuted = true;
 
-            // Find gameplay main camera referenced on Bootstrapper
-            Camera mainRef = null;
-            var bootstrapper = Object.FindAnyObjectByType<NaninovelBootstrapper>();
-            if (bootstrapper != null)
+            Debug.Log("[Test] Naninovel initialized! Beginning Economy and Achievement Test.");
+
+            // 1. Find EconomyManager
+            var economyManager = Object.FindAnyObjectByType<EconomyManager>();
+            if (economyManager == null)
             {
-                var field = bootstrapper.GetType().GetField("gameplayCamera", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-                if (field != null)
-                {
-                    mainRef = field.GetValue(bootstrapper) as Camera;
-                }
+                throw new System.Exception("EconomyManager not found in scene!");
             }
 
-            if (mainRef == null)
+            // 2. Verify initial gold is capped at 10
+            int initialMax = economyManager.MaxGold;
+            Debug.LogFormat("[Test] MaxGold on start: {0}", initialMax);
+            if (initialMax != 10)
             {
-                // Fallback to active Camera.main if bootstrapper didn't cache/serialize it
-                mainRef = Camera.main;
+                throw new System.Exception($"Expected initial MaxGold to be 10, but got {initialMax}");
             }
 
-            Camera[] allCameras = Object.FindObjectsByType<Camera>(FindObjectsSortMode.None);
-            Debug.Log("[Test] Found " + allCameras.Length + " cameras in play mode.");
-
-            foreach (var cam in allCameras)
+            // Verify label style is bold and red
+            if (economyManager.goldLabel == null)
             {
-                bool isRef = (cam == mainRef);
-                var r = new CameraReport
-                {
-                    name = cam.name,
-                    tag = cam.tag,
-                    cullingMask = cam.cullingMask,
-                    cullingMaskLayers = GetLayerNamesFromMask(cam.cullingMask),
-                    orthographic = cam.orthographic,
-                    orthoSizeOrFov = cam.orthographic ? cam.orthographicSize : cam.fieldOfView,
-                    isMainCameraReference = isRef
-                };
-
-                if (isRef)
-                {
-                    r.comparisonToMain = "This is the Main Camera reference.";
-                }
-                else if (mainRef != null)
-                {
-                    string sizeComp = "";
-                    if (cam.orthographic && mainRef.orthographic)
-                    {
-                        sizeComp = Mathf.Approximately(cam.orthographicSize, mainRef.orthographicSize)
-                            ? "Identical size (" + cam.orthographicSize + ")"
-                            : "Different size (" + cam.orthographicSize + " vs " + mainRef.orthographicSize + ")";
-                    }
-                    else
-                    {
-                        sizeComp = "Different projection modes (Ortho vs Perspective)";
-                    }
-
-                    int maskOverlap = cam.cullingMask & mainRef.cullingMask;
-                    string maskComp = maskOverlap == 0
-                        ? "Perfect separation (No overlap)"
-                        : "Overlap on layers: " + GetLayerNamesFromMask(maskOverlap);
-
-                    r.comparisonToMain = "Tag check: '" + cam.tag + "' vs Reference: '" + mainRef.tag + "'. Size: " + sizeComp + ". Mask: " + maskComp;
-                }
-                else
-                {
-                    r.comparisonToMain = "No Main Camera reference available for comparison.";
-                }
-
-                finalReport.Add(r);
-                Debug.Log("[Test] [CAMERA REPORT] Name: '" + r.name + "', Tag: '" + r.tag + "', Ortho: " + r.orthographic + ", Size/FOV: " + r.orthoSizeOrFov + ", Layers: " + r.cullingMaskLayers + ". Compare: " + r.comparisonToMain);
+                throw new System.Exception("EconomyManager goldLabel is null!");
             }
 
-            return true; // Finished
+            string labelText = economyManager.goldLabel.text;
+            TMPro.FontStyles fontStyle = economyManager.goldLabel.fontStyle;
+            Color color = economyManager.goldLabel.color;
+
+            Debug.LogFormat("[Test] goldLabel text on start: '{0}', fontStyle: {1}, color: {2}", labelText, fontStyle, color);
+            if (!labelText.Contains("/10"))
+            {
+                throw new System.Exception($"Expected goldLabel to contain max cap /10, but text is '{labelText}'");
+            }
+            if ((fontStyle & TMPro.FontStyles.Bold) == 0)
+            {
+                throw new System.Exception("Expected goldLabel to be BOLD when at cap.");
+            }
+            if (color != Color.red)
+            {
+                throw new System.Exception("Expected goldLabel color to be RED when at cap.");
+            }
+
+            // 3. Find Beet plant asset
+            var beetPlant = AssetDatabase.LoadAssetAtPath<PlantData>("Assets/_Project/ScriptableObjects/Plants/Beet.asset");
+            if (beetPlant == null)
+            {
+                throw new System.Exception("Beet plant asset not found!");
+            }
+
+            // 4. Trigger 1 harvest
+            Debug.Log("[Test] Adding 1 Beet harvest...");
+            HarvestInventory.Instance.AddHarvest(beetPlant, 1);
+
+            // 5. Find Harvest1 achievement
+            var harvest1 = AssetDatabase.LoadAssetAtPath<AchievementData>("Assets/_Project/ScriptableObjects/Achievements/Harvest1.asset");
+            if (harvest1 == null)
+            {
+                throw new System.Exception("Harvest1 achievement asset not found!");
+            }
+
+            // 6. Verify achievement is ready to collect
+            if (!AchievementManager.Instance.IsReadyToCollect(harvest1))
+            {
+                throw new System.Exception("Harvest1 achievement is not ready to collect after harvesting!");
+            }
+
+            // 7. Claim achievement
+            Debug.Log("[Test] Claiming Harvest1 achievement...");
+            AchievementManager.Instance.ClaimAchievement(harvest1);
+
+            // 8. Verify MaxGold increased by 15 (making it 25)
+            int newMax = economyManager.MaxGold;
+            Debug.LogFormat("[Test] MaxGold after claiming: {0}", newMax);
+            if (newMax != 25)
+            {
+                throw new System.Exception($"Expected new MaxGold to be 25, but got {newMax}");
+            }
+
+            // 9. Verify label text, style, and color have updated
+            labelText = economyManager.goldLabel.text;
+            fontStyle = economyManager.goldLabel.fontStyle;
+            color = economyManager.goldLabel.color;
+
+            Debug.LogFormat("[Test] goldLabel text after claiming: '{0}', fontStyle: {1}, color: {2}", labelText, fontStyle, color);
+            if (!labelText.Contains("/25"))
+            {
+                throw new System.Exception($"Expected goldLabel to contain max cap /25, but text is '{labelText}'");
+            }
+            if ((fontStyle & TMPro.FontStyles.Bold) != 0)
+            {
+                throw new System.Exception("Expected goldLabel NOT to be bold when below cap.");
+            }
+            if (color == Color.red)
+            {
+                throw new System.Exception("Expected goldLabel color NOT to be red when below cap.");
+            }
+
+            Debug.Log("[Test] All Economy and Achievement tests passed successfully!");
+            return true;
         }
 
         private static string GetResult()
@@ -324,7 +322,6 @@ namespace Unity.AI.Assistant.PlayModeTest
             var res = new TestResult
             {
                 success = true,
-                camerasReport = finalReport,
                 logs = _capturedLogs.ToArray()
             };
             return JsonUtility.ToJson(res);

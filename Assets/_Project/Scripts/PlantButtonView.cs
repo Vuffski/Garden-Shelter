@@ -92,7 +92,9 @@ public class PlantButtonView : MonoBehaviour
                 isOwnedColorCached = true;
             }
 
-            ownedLabel.text = inventory.GetCount(plantData).ToString();
+            int count = inventory.GetCount(plantData);
+            int cap = inventory.GetStorageCap(plantData);
+            ownedLabel.text = $"{count}<size=50%><color=#aaaaaa>/{cap}</color></size>";
 
             if (inventory.IsAtStorageCap(plantData))
             {

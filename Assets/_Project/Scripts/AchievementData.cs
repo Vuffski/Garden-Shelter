@@ -22,6 +22,7 @@ public class AchievementData : ScriptableObject
     public List<PlantData> PlantsToUnlock;
     public List<DoggyData> DoggiesToUnlock;
     public int TreatReward = 0;
+    public int MaxMoneyIncrease = 0;
 
     [Header("Prerequisites")]
     public AchievementData RequiredAchievement;

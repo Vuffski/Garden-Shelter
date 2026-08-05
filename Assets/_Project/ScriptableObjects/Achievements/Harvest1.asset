@@ -22,5 +22,6 @@ MonoBehaviour:
   DoggiesToUnlock:
   - {fileID: 0}
   TreatReward: 1
+  MaxMoneyIncrease: 15
   RequiredAchievement: {fileID: 0}
   RequiredDoggy: {fileID: 0}
