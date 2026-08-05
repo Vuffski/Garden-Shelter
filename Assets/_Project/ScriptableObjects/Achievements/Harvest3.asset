@@ -16,9 +16,13 @@ MonoBehaviour:
   Type: 0
   SpecificPlant: {fileID: 0}
   TargetValue: 3
+  vnScriptName: 
   UnlockDescription: New Plant - RED PEPPER
   PlantsToUnlock:
   - {fileID: 11400000, guid: cbd6bc5e2f4146e40af25e4e33a96b75, type: 2}
   DoggiesToUnlock: []
+  TreatReward: 0
+  maxDoggySlotIncrease: 1
+  MaxMoneyIncrease: 0
   RequiredAchievement: {fileID: 0}
   RequiredDoggy: {fileID: 11400000, guid: 4fc2080b280ac12468618e4768048605, type: 2}

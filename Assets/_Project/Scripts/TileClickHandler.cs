@@ -7,6 +7,7 @@ public class TileClickHandler : MonoBehaviour
 
     public PlantSelectionManager plantSelection;
     public DoggySelectionManager doggySelection;
+    public DoggyCapacityPanelView doggyCapacityPanel;
     public EconomyManager economyManager;
     public HarvestInventory harvestInventory;
     public DoggyFieldManager doggyFieldManager;
@@ -86,6 +87,17 @@ public class TileClickHandler : MonoBehaviour
                                 if (activeTile != null)
                                 {
                                     activeTile.FlashDuplicateWarning();
+                                }
+                                return;
+                            }
+
+                            bool isDoggyForDoggySwap = tileView.IsOccupied && tileView.IsOccupiedByDoggy;
+
+                            if (!isDoggyForDoggySwap && doggyFieldManager != null && !doggyFieldManager.CanPlaceNewDoggy())
+                            {
+                                if (doggyCapacityPanel != null)
+                                {
+                                    doggyCapacityPanel.FlashRed();
                                 }
                                 return;
                             }

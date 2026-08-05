@@ -18,6 +18,7 @@ public class TileView : MonoBehaviour
     public SpriteRenderer fillRenderer;
     private Color baseFillColor;
     public bool IsOccupied { get; private set; }
+    public bool IsOccupiedByDoggy => currentDoggy != null;
 
     public GameObject growthBar;
     public SpriteRenderer growthBarFillRenderer;

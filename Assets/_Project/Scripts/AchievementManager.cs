@@ -9,6 +9,7 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private List<AchievementData> allAchievements;
     [SerializeField] private UnlockManager unlockManager;
     [SerializeField] private TreatManager treatManager;
+    [SerializeField] private DoggyFieldManager doggyFieldManager;
 
     public IReadOnlyList<AchievementData> AllAchievements => allAchievements;
 
@@ -95,6 +96,11 @@ public class AchievementManager : MonoBehaviour
         if (treatManager != null && achievement.TreatReward > 0)
         {
             treatManager.AddTreats(achievement.TreatReward);
+        }
+
+        if (doggyFieldManager != null && achievement.MaxDoggySlotIncrease > 0)
+        {
+            doggyFieldManager.IncreaseMaxActiveDoggies(achievement.MaxDoggySlotIncrease);
         }
 
         if (!string.IsNullOrEmpty(achievement.vnScriptName))
