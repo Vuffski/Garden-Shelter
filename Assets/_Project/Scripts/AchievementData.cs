@@ -24,6 +24,8 @@ public class AchievementData : ScriptableObject
     public int TreatReward = 0;
     [SerializeField] private int maxDoggySlotIncrease = 0;
     public int MaxDoggySlotIncrease => maxDoggySlotIncrease;
+    [SerializeField] private int maxGoldenTilesIncrease = 0;
+    public int MaxGoldenTilesIncrease => maxGoldenTilesIncrease;
     public int MaxMoneyIncrease = 0;
 
     [Header("Prerequisites")]

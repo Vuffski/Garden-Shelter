@@ -10,6 +10,7 @@ public class AchievementManager : MonoBehaviour
     [SerializeField] private UnlockManager unlockManager;
     [SerializeField] private TreatManager treatManager;
     [SerializeField] private DoggyFieldManager doggyFieldManager;
+    [SerializeField] private GoldenTileManager goldenTileManager;
 
     public IReadOnlyList<AchievementData> AllAchievements => allAchievements;
 
@@ -101,6 +102,11 @@ public class AchievementManager : MonoBehaviour
         if (doggyFieldManager != null && achievement.MaxDoggySlotIncrease > 0)
         {
             doggyFieldManager.IncreaseMaxActiveDoggies(achievement.MaxDoggySlotIncrease);
+        }
+
+        if (goldenTileManager != null && achievement.MaxGoldenTilesIncrease > 0)
+        {
+            goldenTileManager.IncreaseMaxGoldenTiles(achievement.MaxGoldenTilesIncrease);
         }
 
         if (!string.IsNullOrEmpty(achievement.vnScriptName))

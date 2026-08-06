@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,7 +18,30 @@ public class TileView : MonoBehaviour
 
     public SpriteRenderer fillRenderer;
     private Color baseFillColor;
-    public bool IsOccupied { get; private set; }
+
+    private bool isOccupied;
+    public bool IsOccupied
+    {
+        get => isOccupied;
+        private set
+        {
+            if (isOccupied == value) return;
+            isOccupied = value;
+            if (isOccupied)
+            {
+                OnBecameOccupied?.Invoke(this);
+            }
+            else
+            {
+                OnBecameUnoccupied?.Invoke(this);
+            }
+        }
+    }
+
+    public event System.Action<TileView> OnBecameOccupied;
+    public event System.Action<TileView> OnBecameUnoccupied;
+    public event System.Action<TileView> OnGoldenExpired;
+
     public bool IsOccupiedByDoggy => currentDoggy != null;
 
     public GameObject growthBar;
@@ -38,6 +62,18 @@ public class TileView : MonoBehaviour
     public GameObject aoeOverlayPrefab;
     private Dictionary<DoggyData, SpriteRenderer> aoeOverlays = new Dictionary<DoggyData, SpriteRenderer>();
     private List<TileView> influencedTiles = new List<TileView>();
+
+    [Header("Golden Tile")]
+    [SerializeField] private SpriteRenderer goldenOverlayRenderer;
+    [SerializeField] private AoeOverlayFlash goldenGlowFlasher;
+    [SerializeField] private TMPro.TextMeshPro goldenCountdownText;
+    [SerializeField] private Color goldenOverlayBaseColor = new Color(1f, 0.6f, 0.1f, 1f);
+    [SerializeField] private Color goldenGlowColor = new Color(1f, 0.85f, 0.2f, 0.6f);
+    [SerializeField] private float goldenGlowFrequency = 1.5f;
+    [SerializeField] private float goldenFlashFrequency = 2f;
+
+    public bool IsGolden { get; private set; }
+    private Coroutine goldenFadeCoroutine;
 
     private DoggyData currentDoggy;
     private Coroutine doggyCoroutine;
@@ -133,6 +169,125 @@ public class TileView : MonoBehaviour
                 Destroy(sr.gameObject);
             }
             aoeOverlays.Remove(doggy);
+        }
+    }
+
+    public void SetGolden(float fadeoutDuration)
+    {
+        IsGolden = true;
+
+        if (goldenGlowFlasher != null)
+        {
+            goldenGlowFlasher.gameObject.SetActive(false);
+        }
+
+        if (goldenOverlayRenderer != null)
+        {
+            goldenOverlayRenderer.gameObject.SetActive(true);
+            goldenOverlayRenderer.color = goldenOverlayBaseColor;
+        }
+
+        if (goldenCountdownText != null)
+        {
+            goldenCountdownText.gameObject.SetActive(true);
+        }
+
+        if (goldenFadeCoroutine != null)
+        {
+            StopCoroutine(goldenFadeCoroutine);
+        }
+        goldenFadeCoroutine = StartCoroutine(GoldenFadeRoutine(fadeoutDuration));
+    }
+
+    private IEnumerator GoldenFadeRoutine(float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float envelope = 1f - Mathf.Clamp01(elapsed / duration);
+            float pulse = (Mathf.Sin(Time.time * goldenFlashFrequency * Mathf.PI * 2f) + 1f) / 2f;
+
+            if (goldenOverlayRenderer != null)
+            {
+                Color flashColor = Color.Lerp(goldenOverlayBaseColor, Color.white, pulse * 0.6f);
+                flashColor.a = envelope;
+                goldenOverlayRenderer.color = flashColor;
+            }
+
+            if (goldenCountdownText != null)
+            {
+                int secondsLeft = Mathf.CeilToInt(duration - elapsed);
+                goldenCountdownText.text = secondsLeft.ToString();
+            }
+
+            yield return null;
+        }
+
+        goldenFadeCoroutine = null;
+        IsGolden = false;
+
+        if (goldenOverlayRenderer != null)
+        {
+            goldenOverlayRenderer.gameObject.SetActive(false);
+        }
+
+        if (goldenCountdownText != null)
+        {
+            goldenCountdownText.gameObject.SetActive(false);
+        }
+
+        OnGoldenExpired?.Invoke(this);
+    }
+
+    public void ActivateGoldenGlow()
+    {
+        if (goldenFadeCoroutine != null)
+        {
+            StopCoroutine(goldenFadeCoroutine);
+            goldenFadeCoroutine = null;
+        }
+
+        if (goldenOverlayRenderer != null)
+        {
+            goldenOverlayRenderer.gameObject.SetActive(false);
+        }
+
+        if (goldenCountdownText != null)
+        {
+            goldenCountdownText.gameObject.SetActive(false);
+        }
+
+        if (goldenGlowFlasher != null)
+        {
+            goldenGlowFlasher.gameObject.SetActive(true);
+            goldenGlowFlasher.Initialize(goldenGlowColor, goldenGlowFrequency);
+        }
+    }
+
+    public void ClearGolden()
+    {
+        IsGolden = false;
+
+        if (goldenFadeCoroutine != null)
+        {
+            StopCoroutine(goldenFadeCoroutine);
+            goldenFadeCoroutine = null;
+        }
+
+        if (goldenOverlayRenderer != null)
+        {
+            goldenOverlayRenderer.gameObject.SetActive(false);
+        }
+
+        if (goldenCountdownText != null)
+        {
+            goldenCountdownText.gameObject.SetActive(false);
+        }
+
+        if (goldenGlowFlasher != null)
+        {
+            goldenGlowFlasher.gameObject.SetActive(false);
         }
     }
 

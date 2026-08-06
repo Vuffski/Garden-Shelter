@@ -4457,7 +4457,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 60, y: 0}
+  m_SizeDelta: {x: 69.69, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1162778314
 MonoBehaviour:
@@ -5064,6 +5064,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e057298c7316047b33c460a29c2d5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MiniAchievementEntryView
+--- !u!1 &1355123352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1355123354}
+  - component: {fileID: 1355123353}
+  m_Layer: 0
+  m_Name: GoldenTileManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1355123353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355123352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4cd65e87fd6cf4f449be835c83f25e0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoldenTileManager
+  gridManager: {fileID: 874877497}
+  baseMaxGoldenTiles: 1
+  goldenTileCooldown: 1
+  goldenTileFadeout: 30
+--- !u!4 &1355123354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1355123352}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 128.47879, y: 584.2446, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1414440496
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6653,6 +6701,7 @@ MonoBehaviour:
   filledSlotColor: {r: 1, g: 1, b: 1, a: 1}
   flashColor: {r: 1, g: 0, b: 0, a: 1}
   flashDuration: 0.3
+  preserveIconAspect: 1
 --- !u!114 &1658637992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7124,6 +7173,7 @@ MonoBehaviour:
   unlockManager: {fileID: 1740441667}
   treatManager: {fileID: 354947507}
   doggyFieldManager: {fileID: 1444672602}
+  goldenTileManager: {fileID: 1355123353}
 --- !u!4 &1772447190
 Transform:
   m_ObjectHideFlags: 0
@@ -8674,3 +8724,4 @@ SceneRoots:
   - {fileID: 1740441668}
   - {fileID: 940381267}
   - {fileID: 354947508}
+  - {fileID: 1355123354}

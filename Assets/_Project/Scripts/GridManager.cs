@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
@@ -76,10 +77,25 @@ public class GridManager : MonoBehaviour
                     tileView.doggyFieldManager = doggyFieldManager;
                     tileView.gridManager = this;
 
-                    Color fillColor = (tile.Type == TileType.Special) ? Color.yellow : Color.grey;
-                    tileView.SetFillColor(fillColor);
+                    tileView.SetFillColor(Color.grey);
 
                     tileViews[x, y] = tileView;
+                }
+            }
+        }
+    }
+
+    public IEnumerable<TileView> GetAllTiles()
+    {
+        if (tileViews == null) yield break;
+
+        for (int x = 0; x < GridWidth; x++)
+        {
+            for (int y = 0; y < GridHeight; y++)
+            {
+                if (tileViews[x, y] != null)
+                {
+                    yield return tileViews[x, y];
                 }
             }
         }
